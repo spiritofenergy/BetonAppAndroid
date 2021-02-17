@@ -13,6 +13,7 @@
 
     <color name="borders">#FFD4D4D4</color>
     <color name="hint">#FFA7A7A7</color>
+    <color name="sub_text">#FF7A7A7A</color>
 
     <color name="ripple">#3D000000</color>
 </resources>
