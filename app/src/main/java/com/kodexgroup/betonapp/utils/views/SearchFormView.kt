@@ -17,6 +17,8 @@ class SearchFormView(context: Context, attributeSet: AttributeSet) : LinearLayou
 
     private val searchLock: SearchBlockView
 
+    private lateinit var fm: FragmentManager
+
     init {
         val inflater = context
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -24,8 +26,10 @@ class SearchFormView(context: Context, attributeSet: AttributeSet) : LinearLayou
 
         searchLock = root.findViewById(R.id.search_lock)
 
-        val fragmentActivity: FragmentActivity = context as FragmentActivity
-        val fm: FragmentManager = fragmentActivity.supportFragmentManager
+        if (!isInEditMode) {
+            val fragmentActivity: FragmentActivity = context as FragmentActivity
+            fm = fragmentActivity.supportFragmentManager
+        }
 
         searchLock.lock {
 
