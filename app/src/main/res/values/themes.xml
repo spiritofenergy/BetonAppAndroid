@@ -48,6 +48,12 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="Theme.BetonApp.GridButton">
+        <item name="android:background">@color/borders</item>
+        <item name="fontFamily">@font/noto_sans</item>
+        <item name="android:textSize">11sp</item>
+    </style>
+
     <style name="MyToolbar">
         <item name="android:textSize">18sp</item>
         <item name="android:gravity">center</item>
