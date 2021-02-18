@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/title_dialog_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="История поиска"
@@ -17,30 +17,25 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/imageButton"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:id="@+id/dialog_item_btn"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
         android:background="@drawable/ic_note_btn_bg"
         android:tint="@color/sub_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_delete" />
 
-    <GridView
-        android:id="@+id/grid"
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/grid_flex"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:gravity="center"
-        android:horizontalSpacing="10dp"
-        android:layerType="software"
-        android:numColumns="auto_fit"
-        android:saveEnabled="false"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="10dp"
+        app:alignContent="stretch"
+        app:alignItems="stretch"
+        app:flexWrap="wrap"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/content_search_item_grid_item" />
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

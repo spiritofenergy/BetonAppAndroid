@@ -1,6 +1,8 @@
 package com.kodexgroup.betonapp.utils.views
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -66,6 +68,21 @@ class SearchBlockView(context: Context, attributeSet: AttributeSet?) : LinearLay
         hintText = root.findViewById(R.id.hint_search)
         searchBtn = root.findViewById(R.id.search_btn)
         searchBtnFocus = root.findViewById(R.id.search_btn_focus)
+
+        searchText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {  }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {  }
+
+            override fun afterTextChanged(s: Editable?) {
+                if (s?.isNotEmpty() == true) {
+                    hintText.visibility = INVISIBLE
+                } else {
+                    hintText.visibility = VISIBLE
+                }
+            }
+
+        })
     }
 
     fun lock(click: () -> Unit = {}) {
@@ -85,6 +102,8 @@ class SearchBlockView(context: Context, attributeSet: AttributeSet?) : LinearLay
     fun setFocus(listener: () -> Unit = {}) {
         searchBtn.visibility = View.VISIBLE
         searchBtnFocus.visibility = View.VISIBLE
+
+        searchText.isClickable = false
 
         searchText.setPadding(dpToPx(55f), dpToPx(8f), dpToPx(15f), dpToPx(8f))
 
@@ -115,6 +134,8 @@ class SearchBlockView(context: Context, attributeSet: AttributeSet?) : LinearLay
         searchText.setPadding(dpToPx(15f), dpToPx(8f), dpToPx(15f), dpToPx(8f))
         searchBtn.visibility = View.VISIBLE
         searchBtnFocus.visibility = View.VISIBLE
+
+        searchText.isClickable = true
 
         searchText.clearFocus()
 

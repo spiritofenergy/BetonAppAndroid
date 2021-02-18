@@ -4,4 +4,9 @@
         <attr name="hint" format="string" />
         <attr name="password" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="DialogContentView">
+        <attr name="title" format="string" />
+        <attr name="iconBtn" format="reference" />
+    </declare-styleable>
 </resources>

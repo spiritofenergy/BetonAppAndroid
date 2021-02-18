@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.widget.LinearLayout
 import com.kodexgroup.betonapp.R
 
-class ButtonGridView(context: Context, attr: AttributeSet) : LinearLayout(context, attr) {
+class ButtonGridView(context: Context, attr: AttributeSet?) : LinearLayout(context, attr) {
 
     init {
         val inflater = context
