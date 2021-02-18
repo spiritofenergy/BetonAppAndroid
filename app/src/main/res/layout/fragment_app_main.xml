@@ -20,8 +20,9 @@
         <include
             layout="@layout/toolbar_app_default"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="16dp" />
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="10dp" />
 
     </androidx.appcompat.widget.Toolbar>
 
