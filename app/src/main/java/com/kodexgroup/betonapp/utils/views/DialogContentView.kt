@@ -43,8 +43,8 @@ class DialogContentView(context: Context, attr: AttributeSet) : LinearLayout(con
             R.styleable.DialogContentView, 0, 0)
             .apply {
                 try {
-                    titleText = getString(R.styleable.DialogContentView_title).toString()
-                    iconBtn = getResourceId(R.styleable.DialogContentView_iconBtn, 0)
+                    titleText = getString(R.styleable.DialogContentView_title) ?: "Title"
+                    iconBtn = getResourceId(R.styleable.DialogContentView_iconBtn, R.drawable.ic_delete)
                 } finally { }
             }
             .recycle()
@@ -52,7 +52,8 @@ class DialogContentView(context: Context, attr: AttributeSet) : LinearLayout(con
 
     fun addMiniButtons(list: List<String>) {
         for (item in list) {
-            inflater.inflate(R.layout.content_search_item_grid_item, grid, true)
+//            inflater.inflate(R.layout.content_search_item_grid_item, grid, true)
+            grid.addView(ButtonGridView(context, null))
         }
     }
 

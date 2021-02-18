@@ -13,11 +13,14 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.view.isVisible
+import android.widget.TextView.OnEditorActionListener
 import com.kodexgroup.betonapp.R
 import com.kodexgroup.betonapp.utils.dpToPx
 
-class SearchBlockView(context: Context, attributeSet: AttributeSet?) : LinearLayout(context, attributeSet) {
+class SearchBlockView(context: Context, attributeSet: AttributeSet?) : LinearLayout(
+    context,
+    attributeSet
+) {
 
     private val searchText: EditText
     private val hintText: TextView
@@ -70,9 +73,9 @@ class SearchBlockView(context: Context, attributeSet: AttributeSet?) : LinearLay
         searchBtnFocus = root.findViewById(R.id.search_btn_focus)
 
         searchText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {  }
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {  }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
 
             override fun afterTextChanged(s: Editable?) {
                 if (s?.isNotEmpty() == true) {
@@ -83,6 +86,15 @@ class SearchBlockView(context: Context, attributeSet: AttributeSet?) : LinearLay
             }
 
         })
+
+        searchText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                println("search")
+                //TODO("ADD SEARCH")
+                return@setOnEditorActionListener true
+            }
+            false
+        }
     }
 
     fun lock(click: () -> Unit = {}) {
@@ -111,14 +123,14 @@ class SearchBlockView(context: Context, attributeSet: AttributeSet?) : LinearLay
 
         val anim = AnimationUtils.loadAnimation(context, R.anim.anim_move_hint)
         anim.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation?) {  }
+            override fun onAnimationStart(animation: Animation?) {}
 
             override fun onAnimationEnd(animation: Animation?) {
                 searchText.requestFocus()
                 listener()
             }
 
-            override fun onAnimationRepeat(animation: Animation?) {  }
+            override fun onAnimationRepeat(animation: Animation?) {}
 
         })
         hintText.startAnimation(anim)
@@ -145,27 +157,30 @@ class SearchBlockView(context: Context, attributeSet: AttributeSet?) : LinearLay
         val leftAnim = AnimationUtils.loadAnimation(context, R.anim.anim_move_btn_reverse)
         leftAnim
             .setAnimationListener(object : Animation.AnimationListener {
-                override fun onAnimationStart(animation: Animation?) {  }
+                override fun onAnimationStart(animation: Animation?) {}
 
                 override fun onAnimationEnd(animation: Animation?) {
                     searchText.setBackgroundResource(R.drawable.ic_edit_search)
                 }
 
-                override fun onAnimationRepeat(animation: Animation?) {  }
+                override fun onAnimationRepeat(animation: Animation?) {}
 
             })
         searchBtn.startAnimation(leftAnim)
 
-        val leftAnimFocus = AnimationUtils.loadAnimation(context, R.anim.anim_move_btn_focus_reserve)
+        val leftAnimFocus = AnimationUtils.loadAnimation(
+            context,
+            R.anim.anim_move_btn_focus_reserve
+        )
         leftAnimFocus.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation?) {  }
+            override fun onAnimationStart(animation: Animation?) {}
 
             override fun onAnimationEnd(animation: Animation?) {
                 searchBtnFocus.visibility = View.INVISIBLE
                 listener()
             }
 
-            override fun onAnimationRepeat(animation: Animation?) {  }
+            override fun onAnimationRepeat(animation: Animation?) {}
 
         })
         searchBtnFocus.startAnimation(leftAnimFocus)
