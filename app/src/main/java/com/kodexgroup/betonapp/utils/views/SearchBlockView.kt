@@ -33,12 +33,12 @@ class SearchBlockView(context: Context, attributeSet: AttributeSet?) : LinearLay
         set(value) {
             field = value
             if (value) {
-                searchText.setPadding(dpToPx(53f), dpToPx(8f), dpToPx(15f), dpToPx(8f))
+                searchText.setPadding(dpToPx(52f), dpToPx(8f), dpToPx(15f), dpToPx(8f))
                 searchBtnFocus.visibility = View.VISIBLE
 
                 searchText.setBackgroundResource(R.drawable.ic_edit_search_focus)
 
-                hintText.setPadding(dpToPx(40f), dpToPx(8f), dpToPx(15f), dpToPx(8f))
+                hintText.setPadding(110, dpToPx(8f), dpToPx(15f), dpToPx(8f))
 
                 searchBtn.visibility = View.INVISIBLE
                 searchBtnFocus.visibility = View.VISIBLE
