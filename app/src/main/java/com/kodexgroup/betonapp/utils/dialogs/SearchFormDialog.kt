@@ -27,8 +27,6 @@ class SearchFormDialog : DialogFragment() {
     ): View? {
         val root = inflater.inflate(R.layout.dialog_search, container, false)
 
-        val toolbar = root.findViewById<Toolbar>(R.id.toolbar_dialog)
-
         searchLock = root.findViewById(R.id.dialog_search_form)
         history = root.findViewById(R.id.history_search)
         add = root.findViewById(R.id.add_search)
