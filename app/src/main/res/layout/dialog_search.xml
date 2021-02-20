@@ -98,20 +98,6 @@
         app:justifyContent="space_between"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/title_dialog_item2">
-
-        <com.kodexgroup.betonapp.utils.views.MiniCardProductView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="5dp"
-            tools:layout_editor_absoluteY="5dp" />
-
-        <com.kodexgroup.betonapp.utils.views.MiniCardProductView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:layout_editor_absoluteX="185dp"
-            tools:layout_editor_absoluteY="5dp" />
-
-    </com.google.android.flexbox.FlexboxLayout>
+        app:layout_constraintTop_toTopOf="@id/title_dialog_item2"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,7 +2,7 @@ package com.kodexgroup.betonapp.database.server.entities
 
 import com.kodexgroup.betonapp.utils.xml.interfaces.IXMLClass
 
-class UserEntity : IXMLClass {
+class User : IXMLClass {
 
     private lateinit var _id: String
     val id: String

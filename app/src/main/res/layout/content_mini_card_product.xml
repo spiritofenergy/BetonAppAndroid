@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/product_card"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
@@ -15,11 +16,11 @@
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
         android:background="@color/white"
-        android:foreground="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:clipChildren="true"
         android:clipToPadding="true"
         android:elevation="30dp"
+        android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,7 +28,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/preview_mini_card"
             android:layout_width="wrap_content"
             android:layout_height="80dp"
             android:scaleType="centerCrop"
@@ -43,7 +44,7 @@
             android:paddingBottom="7dp">
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/title_mini_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Бетон М-200"
@@ -52,19 +53,19 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/factory_mini_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textView4"
+                android:layout_below="@id/title_mini_card"
                 android:text="Истра Бетон"
                 android:textColor="@color/black"
                 android:textSize="11sp" />
 
             <LinearLayout
-                android:id="@+id/rate_mini_card"
+                android:id="@+id/linear_rate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/textView5"
+                android:layout_below="@id/factory_mini_card"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:gravity="center_vertical"
@@ -77,7 +78,7 @@
                     app:srcCompat="@drawable/ic_star" />
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/rate_mini_card"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
@@ -98,10 +99,10 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textView8"
+                android:id="@+id/address_mini_card"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/rate_mini_card"
+                android:layout_below="@id/linear_rate"
                 android:text="Москва, ул. Тропаревская 4"
                 android:textSize="9sp" />
         </RelativeLayout>

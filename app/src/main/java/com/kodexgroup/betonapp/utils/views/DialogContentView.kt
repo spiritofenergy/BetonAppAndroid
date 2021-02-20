@@ -52,8 +52,13 @@ class DialogContentView(context: Context, attr: AttributeSet) : LinearLayout(con
 
     fun addMiniButtons(list: List<String>) {
         for (item in list) {
-//            inflater.inflate(R.layout.content_search_item_grid_item, grid, true)
             grid.addView(ButtonGridView(context, null))
+        }
+    }
+
+    fun setOnBtnClickListener(listener: () -> Unit) {
+        btn.setOnClickListener{
+            listener()
         }
     }
 
