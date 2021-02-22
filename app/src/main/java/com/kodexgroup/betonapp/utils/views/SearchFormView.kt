@@ -5,19 +5,20 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
-import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import com.kodexgroup.betonapp.R
 import com.kodexgroup.betonapp.utils.dialogs.SearchFormDialog
+import com.kodexgroup.betonapp.utils.getFragmentManager
+
 
 class SearchFormView(context: Context, attributeSet: AttributeSet) : LinearLayout(
-    context,
-    attributeSet
+        context,
+        attributeSet
 ) {
 
     private val searchLock: SearchBlockView
 
-    private lateinit var fm: FragmentManager
+    private var fm: FragmentManager? = null
 
     init {
         val inflater = context
@@ -27,15 +28,14 @@ class SearchFormView(context: Context, attributeSet: AttributeSet) : LinearLayou
         searchLock = root.findViewById(R.id.search_lock)
 
         if (!isInEditMode) {
-            val fragmentActivity: FragmentActivity = context as FragmentActivity
-            fm = fragmentActivity.supportFragmentManager
+            fm = getFragmentManager(context)
         }
 
         searchLock.lock {
 
             searchLock.setFocus {
                 val dialog = SearchFormDialog()
-                dialog.show(fm, "")
+                fm?.let { dialog.show(it, "") }
 
                 dialog.setOnDismissListener {
                     val animFadeIn = AnimationUtils.loadAnimation(context, R.anim.anim_fade_in)

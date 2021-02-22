@@ -13,4 +13,19 @@
     <declare-styleable name="ButtonGridView">
         <attr name="titleBtn" format="string" />
     </declare-styleable>
+
+    <declare-styleable name="ButtonMenuView">
+        <attr name="titleBtnMain" format="string" />
+        <attr name="iconBtnMain" format="reference" />
+        <attr name="backgroundBtn" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ButtonTypeView">
+        <attr name="typeName" format="string" />
+        <attr name="typePreview" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ToolbarView">
+        <attr name="search" format="boolean" />
+    </declare-styleable>
 </resources>

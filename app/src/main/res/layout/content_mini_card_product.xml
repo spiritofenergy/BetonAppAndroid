@@ -29,10 +29,10 @@
 
         <ImageView
             android:id="@+id/preview_mini_card"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="80dp"
             android:scaleType="centerCrop"
-            app:srcCompat="@mipmap/concrete" />
+            tools:srcCompat="@drawable/concrete" />
 
         <RelativeLayout
             android:layout_width="match_parent"

@@ -9,6 +9,10 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import com.kodexgroup.betonapp.R
 import com.kodexgroup.betonapp.database.server.entities.Product
+import com.kodexgroup.betonapp.utils.getImage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MiniCardProductView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
@@ -39,6 +43,10 @@ class MiniCardProductView(context: Context, attrs: AttributeSet?) : LinearLayout
             println("CLICK")
 
             // TODO("open product")
+        }
+
+        CoroutineScope(Dispatchers.Main).launch {
+            getImage(R.drawable.concrete, mainImage)
         }
     }
 

@@ -1,9 +1,19 @@
 package com.kodexgroup.betonapp.utils
 
 import android.app.Activity
+import android.content.Context
+import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import com.bumptech.glide.Glide
+import com.kodexgroup.betonapp.R
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlin.coroutines.suspendCoroutine
 
 fun Activity.hideKeyword() {
     val view = currentFocus ?: View(this)
@@ -30,4 +40,20 @@ fun Fragment.hideKeyword() {
 fun View.dpToPx(dp: Float) : Int {
     val scale: Float = resources.displayMetrics.density
     return (dp * scale + 0.5f).toInt()
+}
+
+fun View.getFragmentManager(context: Context?) : FragmentManager? {
+    return when (context) {
+        is AppCompatActivity -> context.supportFragmentManager
+        is ContextThemeWrapper -> getFragmentManager(context.baseContext)
+        else -> null
+    }
+}
+
+fun View.getImage(resId: Int, imageView: ImageView) {
+    Glide
+        .with(this@getImage)
+        .load(resId)
+        .placeholder(R.drawable.ic_placeholder_image)
+        .into(imageView)
 }
