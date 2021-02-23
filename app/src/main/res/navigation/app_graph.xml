@@ -8,11 +8,11 @@
     <fragment
         android:id="@+id/mainAppFragment"
         android:name="com.kodexgroup.betonapp.screens.app.main.MainAppFragment"
-        tools:layout="@layout/fragment_app_main"
+        tools:layout="@layout/pattern_main"
         android:label="MainAppFragment" />
     <fragment
         android:id="@+id/mapAppFragment"
         android:name="com.kodexgroup.betonapp.screens.app.map.MapAppFragment"
-        tools:layout="@layout/fragment_app_map"
+        tools:layout="@layout/pattern_main"
         android:label="MapAppFragment" />
 </navigation>

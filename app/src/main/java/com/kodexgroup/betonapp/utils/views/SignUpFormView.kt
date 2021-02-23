@@ -36,7 +36,7 @@ class SignUpFormView(context: Context, attributeSet: AttributeSet) : LinearLayou
     init {
         val inflater = context
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val root = inflater.inflate(R.layout.content_sign_up_form, this, true)
+        val root = inflater.inflate(R.layout.view_sign_up_form, this, true)
 
         if (!isInEditMode) {
             serverController = ServerController()

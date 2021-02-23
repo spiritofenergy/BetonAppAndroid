@@ -16,6 +16,13 @@
             app:launchSingleTop="true"
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/is_signed_to_home"
+            app:destination="@id/homeFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -71,5 +78,5 @@
         android:id="@+id/productListFragment"
         android:name="com.kodexgroup.betonapp.screens.productlist.ProductListFragment"
         android:label="ProductListFragment"
-        tools:layout="@layout/fragment_products_list"/>
+        tools:layout="@layout/pattern_second"/>
 </navigation>

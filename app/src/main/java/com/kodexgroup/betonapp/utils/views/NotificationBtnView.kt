@@ -4,10 +4,8 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
-import android.widget.TextView
 import com.kodexgroup.betonapp.R
 
 class NotificationBtnView(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet) {
@@ -29,7 +27,7 @@ class NotificationBtnView(context: Context, attributeSet: AttributeSet) : Linear
     init {
         val inflater = context
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val root = inflater.inflate(R.layout.content_note_btn, this, true)
+        val root = inflater.inflate(R.layout.view_note_btn, this, true)
 
         noteBtn = root.findViewById(R.id.note_btn)
         note = root.findViewById(R.id.note_view)

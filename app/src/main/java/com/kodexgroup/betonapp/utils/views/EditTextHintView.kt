@@ -51,7 +51,7 @@ class EditTextHintView(context: Context, attributeSet: AttributeSet) : LinearLay
     init {
         val inflater = context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val root = inflater.inflate(R.layout.content_edit_text, this, true)
+        val root = inflater.inflate(R.layout.view_edit_text, this, true)
 
         editText = root.findViewById(R.id.input_txt)
         hintText = root.findViewById(R.id.input_txt_hint)

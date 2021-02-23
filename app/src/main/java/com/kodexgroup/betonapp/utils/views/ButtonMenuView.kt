@@ -10,6 +10,7 @@ import android.widget.TextView
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.kodexgroup.betonapp.R
+import com.kodexgroup.betonapp.utils.findParentNavController
 
 class ButtonMenuView(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet) {
 
@@ -40,10 +41,10 @@ class ButtonMenuView(context: Context, attributeSet: AttributeSet) : LinearLayou
     init {
         val inflater = context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val root = inflater.inflate(R.layout.content_button_menu, this, true)
+        val root = inflater.inflate(R.layout.view_button_menu, this, true)
 
         if (!isInEditMode) {
-            navController = Navigation.findNavController(context as Activity, R.id.nav_host_fragment)
+            navController = findParentNavController()
         }
 
         btn = root.findViewById(R.id.btn_menu_main)

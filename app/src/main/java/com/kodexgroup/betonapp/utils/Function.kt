@@ -9,6 +9,8 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.kodexgroup.betonapp.R
 import kotlinx.coroutines.Dispatchers
@@ -56,4 +58,8 @@ fun View.getImage(resId: Int, imageView: ImageView) {
         .load(resId)
         .placeholder(R.drawable.ic_placeholder_image)
         .into(imageView)
+}
+
+fun View.findParentNavController() : NavController {
+    return Navigation.findNavController(context as Activity, R.id.nav_host_fragment)
 }

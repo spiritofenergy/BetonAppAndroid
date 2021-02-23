@@ -29,7 +29,7 @@ class MiniCardProductView(context: Context, attrs: AttributeSet?) : LinearLayout
     init {
         val inflater = context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val root = inflater.inflate(R.layout.content_mini_card_product, this, true)
+        val root = inflater.inflate(R.layout.view_mini_card_product, this, true)
 
         card = root.findViewById(R.id.product_card)
 

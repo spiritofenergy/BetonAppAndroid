@@ -1,11 +1,9 @@
 package com.kodexgroup.betonapp.utils.views
 
-import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -32,7 +30,7 @@ class LoginFormView(context: Context, attrs: AttributeSet) : LinearLayout(contex
     init {
         val inflater = context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val root = inflater.inflate(R.layout.content_login_form, this, true)
+        val root = inflater.inflate(R.layout.view_login_form, this, true)
 
         if (!isInEditMode) {
             serverController = ServerController()

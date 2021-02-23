@@ -14,7 +14,7 @@ class DialogContentView(context: Context, attr: AttributeSet) : LinearLayout(con
 
     private val inflater: LayoutInflater = context
         .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    val root: View = inflater.inflate(R.layout.content_search_dialog_item, this, true)
+    val root: View = inflater.inflate(R.layout.view_search_dialog_item, this, true)
 
     var titleText: String = ""
         set(value) {

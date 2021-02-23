@@ -13,7 +13,6 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.TextView.OnEditorActionListener
 import com.kodexgroup.betonapp.R
 import com.kodexgroup.betonapp.utils.dpToPx
 
@@ -65,7 +64,7 @@ class SearchBlockView(context: Context, attributeSet: AttributeSet?) : LinearLay
     init {
         val inflater = context
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        root = inflater.inflate(R.layout.content_search_block, this, true)
+        root = inflater.inflate(R.layout.view_search_block, this, true)
 
         searchText = root.findViewById(R.id.search_txt)
         hintText = root.findViewById(R.id.hint_search)

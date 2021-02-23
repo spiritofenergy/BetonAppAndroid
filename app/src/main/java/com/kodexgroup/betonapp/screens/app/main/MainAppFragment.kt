@@ -4,18 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ScrollView
-import androidx.fragment.app.Fragment
 import com.kodexgroup.betonapp.R
+import com.kodexgroup.betonapp.screens.HomeFragment
 
-class MainAppFragment : Fragment() {
+class MainAppFragment : HomeFragment() {
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val root = inflater.inflate(R.layout.fragment_app_main, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val root = super.onCreateView(inflater, container, savedInstanceState)
+
+        addView(LayoutInflater.from(context).inflate(R.layout.content_home, null))
 
         return root
     }

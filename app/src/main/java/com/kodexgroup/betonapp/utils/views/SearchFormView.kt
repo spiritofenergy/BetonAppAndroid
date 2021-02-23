@@ -23,7 +23,7 @@ class SearchFormView(context: Context, attributeSet: AttributeSet) : LinearLayou
     init {
         val inflater = context
             .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val root = inflater.inflate(R.layout.content_search_form, this, true)
+        val root = inflater.inflate(R.layout.view_search_form, this, true)
 
         searchLock = root.findViewById(R.id.search_lock)
 

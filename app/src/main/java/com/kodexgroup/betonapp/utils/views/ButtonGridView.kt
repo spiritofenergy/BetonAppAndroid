@@ -21,7 +21,7 @@ class ButtonGridView(context: Context, attr: AttributeSet?) : LinearLayout(conte
     init {
         val inflater = context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val root = inflater.inflate(R.layout.content_search_item_grid_item, this, true)
+        val root = inflater.inflate(R.layout.view_search_item_grid_item, this, true)
 
         btn = root.findViewById(R.id.button_grid_item)
 

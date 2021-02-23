@@ -15,7 +15,6 @@ import com.kodexgroup.betonapp.utils.getImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.w3c.dom.Text
 
 class FactoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -54,7 +53,7 @@ class FactoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(cont
     init {
         val inflater = context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val root = inflater.inflate(R.layout.content_factory_card, this, true)
+        val root = inflater.inflate(R.layout.view_factory_card, this, true)
 
         card = root.findViewById(R.id.factory_card)
         titleTxt = root.findViewById(R.id.title_factory_card)
