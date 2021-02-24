@@ -13,7 +13,7 @@ class ProductListFragment : SecondFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = super.onCreateView(inflater, container, savedInstanceState)
 
-//        addView(LayoutInflater.from(context).inflate(R.layout.frame_main, null))
+        addView(LayoutInflater.from(context).inflate(R.layout.content_product_list, null))
 
         return root
     }

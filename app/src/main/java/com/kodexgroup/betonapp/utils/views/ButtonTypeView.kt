@@ -32,12 +32,12 @@ class ButtonTypeView(context: Context, attributeSet: AttributeSet) : LinearLayou
             titleTypeTxt.text = value
         }
 
-    var preview: Int = R.drawable.concrete
+    var preview: Int = R.color.hint
         set(value) {
             field = value
 
             CoroutineScope(Dispatchers.Main).launch {
-                getImage(R.drawable.concrete, previewType)
+                getImage(value, previewType)
             }
         }
 
@@ -59,7 +59,7 @@ class ButtonTypeView(context: Context, attributeSet: AttributeSet) : LinearLayou
                 .apply {
                     try {
                         title = getString(R.styleable.ButtonTypeView_typeName) ?: "Бетоны"
-                        preview = getResourceId(R.styleable.ButtonTypeView_typePreview, R.drawable.concrete)
+                        preview = getResourceId(R.styleable.ButtonTypeView_typePreview, R.color.hint)
                     } finally { }
                 }
                 .recycle()

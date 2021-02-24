@@ -28,4 +28,9 @@
     <declare-styleable name="ToolbarView">
         <attr name="search" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="ButtonFilterView">
+        <attr name="active" format="boolean" />
+        <attr name="text" format="string" />
+    </declare-styleable>
 </resources>

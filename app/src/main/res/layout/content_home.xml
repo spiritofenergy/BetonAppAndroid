@@ -56,7 +56,9 @@
                     <com.kodexgroup.betonapp.utils.views.ButtonTypeView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        app:typeName="Бетоны"
+                        app:typePreview="@drawable/concrete" />
 
                     <Space
                         android:layout_width="10dp"
@@ -65,7 +67,9 @@
                     <com.kodexgroup.betonapp.utils.views.ButtonTypeView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        app:typeName="Аренда"
+                        app:typePreview="@drawable/concrete_car" />
                 </LinearLayout>
 
                 <Space
@@ -80,7 +84,9 @@
                     <com.kodexgroup.betonapp.utils.views.ButtonTypeView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        app:typeName="Грунты"
+                        app:typePreview="@drawable/sand" />
 
                     <Space
                         android:layout_width="10dp"
@@ -89,7 +95,9 @@
                     <com.kodexgroup.betonapp.utils.views.ButtonTypeView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        app:typeName="Растворы"
+                        app:typePreview="@drawable/concrete_2" />
                 </LinearLayout>
             </LinearLayout>
 

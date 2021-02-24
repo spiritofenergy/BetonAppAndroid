@@ -12,5 +12,36 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/filters_list"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            app:alignContent="stretch"
+            app:alignItems="stretch"
+            app:flexWrap="wrap"/>
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:layout_marginLeft="5dp"
+            android:background="@color/black" />
+
+        <ImageButton
+            android:id="@+id/imageButton"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="1dp"
+            android:adjustViewBounds="true"
+            android:background="@drawable/ic_note_btn_bg"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/ic_filter" />
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
