@@ -77,6 +77,16 @@
     <fragment
         android:id="@+id/productListFragment"
         android:name="com.kodexgroup.betonapp.screens.productlist.ProductListFragment"
-        android:label="ProductListFragment"
-        tools:layout="@layout/pattern_second"/>
+        android:label="Second"
+        tools:layout="@layout/content_product_list" >
+        <action
+            android:id="@+id/to_product_list"
+            app:destination="@id/productListFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:launchSingleTop="true"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpToInclusive="false" />
+    </fragment>
 </navigation>

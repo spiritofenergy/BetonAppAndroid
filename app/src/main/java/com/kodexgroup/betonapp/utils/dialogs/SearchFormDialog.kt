@@ -9,6 +9,7 @@ import android.widget.Toolbar
 import androidx.fragment.app.DialogFragment
 import com.google.android.flexbox.FlexboxLayout
 import com.kodexgroup.betonapp.R
+import com.kodexgroup.betonapp.screens.SecondFragment
 import com.kodexgroup.betonapp.utils.views.DialogContentView
 import com.kodexgroup.betonapp.utils.views.MiniCardProductView
 import com.kodexgroup.betonapp.utils.views.SearchBlockView
