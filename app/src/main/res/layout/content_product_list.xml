@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginRight="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,28 +41,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                app:typeName="Растворы"
-                app:typePreview="@drawable/concrete_2" />
-
-            <Space
-                android:layout_width="2dp"
-                android:layout_height="match_parent" />
-
-            <com.kodexgroup.betonapp.utils.views.ButtonTypeView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:typeName="Грунты"
-                app:typePreview="@drawable/sand" />
-
-            <Space
-                android:layout_width="2dp"
-                android:layout_height="match_parent" />
-
-            <com.kodexgroup.betonapp.utils.views.ButtonTypeView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                app:typeId="concrete"
                 app:typeName="Бетоны"
                 app:typePreview="@drawable/concrete" />
 
@@ -74,8 +53,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                app:typeId="rent"
                 app:typeName="Аренда"
                 app:typePreview="@drawable/concrete_car" />
+
+            <Space
+                android:layout_width="2dp"
+                android:layout_height="match_parent" />
+
+            <com.kodexgroup.betonapp.utils.views.ButtonTypeView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:typeId="priming"
+                app:typeName="Грунты"
+                app:typePreview="@drawable/sand" />
+
+            <Space
+                android:layout_width="2dp"
+                android:layout_height="match_parent" />
+
+            <com.kodexgroup.betonapp.utils.views.ButtonTypeView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:typeId="solution"
+                app:typeName="Растворы"
+                app:typePreview="@drawable/concrete_2" />
 
         </LinearLayout>
 

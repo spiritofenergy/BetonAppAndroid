@@ -15,6 +15,8 @@ class ProductListFragment : SecondFragment() {
 
         addView(LayoutInflater.from(context).inflate(R.layout.content_product_list, null))
 
+        println(arguments?.getInt("type"))
+
         return root
     }
 

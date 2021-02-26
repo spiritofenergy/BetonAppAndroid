@@ -44,6 +44,11 @@ fun View.dpToPx(dp: Float) : Int {
     return (dp * scale + 0.5f).toInt()
 }
 
+fun Fragment.dpToPx(dp: Float) : Int {
+    val scale: Float = resources.displayMetrics.density
+    return (dp * scale + 0.5f).toInt()
+}
+
 fun View.getFragmentManager(context: Context?) : FragmentManager? {
     return when (context) {
         is AppCompatActivity -> context.supportFragmentManager

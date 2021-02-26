@@ -6,7 +6,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:id="@+id/empty_filters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Выберите нужный фильтр"
+        android:textColor="@color/sub_text"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        tools:visibility="visible" />
+
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -21,7 +37,7 @@
             android:layout_weight="1"
             app:alignContent="stretch"
             app:alignItems="stretch"
-            app:flexWrap="wrap"/>
+            app:flexWrap="wrap" />
 
         <View
             android:id="@+id/divider2"
@@ -32,7 +48,7 @@
             android:background="@color/black" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/open_filters"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginStart="10dp"
