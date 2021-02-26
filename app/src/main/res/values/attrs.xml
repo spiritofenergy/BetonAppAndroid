@@ -23,9 +23,20 @@
     <declare-styleable name="ButtonTypeView">
         <attr name="typeName" format="string" />
         <attr name="typePreview" format="reference" />
+        <attr name="typeId" format="enum">
+            <enum name="concrete" value="0" />
+            <enum name="rent" value="1" />
+            <enum name="priming" value="2" />
+            <enum name="solution" value="3" />
+        </attr>
     </declare-styleable>
 
     <declare-styleable name="ToolbarView">
         <attr name="search" format="boolean" />
+    </declare-styleable>
+
+    <declare-styleable name="ButtonFilterView">
+        <attr name="active" format="boolean" />
+        <attr name="text" format="string" />
     </declare-styleable>
 </resources>

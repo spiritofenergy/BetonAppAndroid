@@ -36,26 +36,14 @@ class ButtonMenuView(context: Context, attributeSet: AttributeSet) : LinearLayou
             mainIconBtn.setBackgroundResource(value)
         }
 
-    private var navController: NavController? = null
-
     init {
         val inflater = context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val root = inflater.inflate(R.layout.view_button_menu, this, true)
 
-        if (!isInEditMode) {
-            navController = findParentNavController()
-        }
-
         btn = root.findViewById(R.id.btn_menu_main)
         mainIconBtn = root.findViewById(R.id.image_btn_menu)
         titleIconBtn = root.findViewById(R.id.title_btn_menu)
-
-        btn.setOnClickListener {
-            println("menu")
-
-            navController?.navigate(R.id.to_product_list)
-        }
 
         context.obtainStyledAttributes(attributeSet,
                 R.styleable.ButtonMenuView, 0, 0)

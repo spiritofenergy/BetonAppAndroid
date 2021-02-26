@@ -22,11 +22,11 @@
                 android:id="@+id/search_form"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
                 android:clickable="true"
                 android:focusable="false"
                 android:focusableInTouchMode="true"
@@ -34,19 +34,32 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <com.kodexgroup.betonapp.utils.views.MainMenuView
+                android:id="@+id/mainMenuView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/search_form" />
+
             <LinearLayout
                 android:id="@+id/types_product"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginStart="15dp"
-                android:layout_marginLeft="15dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
                 android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/main_menu_app">
+                app:layout_constraintTop_toBottomOf="@+id/mainMenuView">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -56,7 +69,10 @@
                     <com.kodexgroup.betonapp.utils.views.ButtonTypeView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        app:typeId="concrete"
+                        app:typeName="Бетоны"
+                        app:typePreview="@drawable/concrete" />
 
                     <Space
                         android:layout_width="10dp"
@@ -65,7 +81,10 @@
                     <com.kodexgroup.betonapp.utils.views.ButtonTypeView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        app:typeId="rent"
+                        app:typeName="Аренда"
+                        app:typePreview="@drawable/concrete_car" />
                 </LinearLayout>
 
                 <Space
@@ -80,7 +99,10 @@
                     <com.kodexgroup.betonapp.utils.views.ButtonTypeView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        app:typeId="priming"
+                        app:typeName="Грунты"
+                        app:typePreview="@drawable/sand" />
 
                     <Space
                         android:layout_width="10dp"
@@ -89,52 +111,12 @@
                     <com.kodexgroup.betonapp.utils.views.ButtonTypeView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        app:typeId="solution"
+                        app:typeName="Растворы"
+                        app:typePreview="@drawable/concrete_2" />
                 </LinearLayout>
             </LinearLayout>
-
-            <com.google.android.flexbox.FlexboxLayout
-                android:id="@+id/main_menu_app"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="15dp"
-                android:layout_marginRight="15dp"
-                app:alignContent="stretch"
-                app:alignItems="stretch"
-                app:flexWrap="nowrap"
-                app:justifyContent="space_between"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/search_form">
-
-                <com.kodexgroup.betonapp.utils.views.ButtonMenuView
-                    android:id="@+id/sale_open"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:backgroundBtn="@drawable/ic_bg_menu_button_blue"
-                    app:iconBtnMain="@drawable/ic_discount"
-                    app:titleBtnMain="Акции" />
-
-                <com.kodexgroup.betonapp.utils.views.ButtonMenuView
-                    android:id="@+id/newest_open"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:backgroundBtn="@drawable/ic_bg_menu_button_red"
-                    app:iconBtnMain="@drawable/ic_resource_new"
-                    app:titleBtnMain="Новинки" />
-
-                <com.kodexgroup.betonapp.utils.views.ButtonMenuView
-                    android:id="@+id/favorites_open"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:backgroundBtn="@drawable/ic_bg_menu_button_yellow"
-                    app:iconBtnMain="@drawable/ic_bookmark"
-                    app:titleBtnMain="Избранное" />
-
-            </com.google.android.flexbox.FlexboxLayout>
 
             <TextView
                 android:id="@+id/textView3"
