@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.kodexgroup.betonapp.R
+import com.kodexgroup.betonapp.utils.findParent
 
 class ButtonFilterView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
@@ -17,6 +18,8 @@ class ButtonFilterView(context: Context, attrs: AttributeSet?) : LinearLayout(co
     private val activeView: View
 
     var isInFilterView = false
+
+    private var listener: (() -> Unit)? = null
 
     var isActive: Boolean = false
         set(value) {
@@ -58,13 +61,23 @@ class ButtonFilterView(context: Context, attrs: AttributeSet?) : LinearLayout(co
                 }
                 .recycle()
 
+        onClick()
+    }
+
+    fun setOnClickBtnListener(listener: () -> Unit) {
+        this.listener = listener
+        onClick()
+    }
+
+    private fun onClick() {
         button.setOnClickListener {
             isActive = !isActive
 
+            listener?.invoke()
+
             if (isInFilterView) {
-                (parent as ViewGroup).removeView(this)
+                findParent<FiltersView>(parent)?.deleteBtn(this)
             }
         }
     }
-
 }

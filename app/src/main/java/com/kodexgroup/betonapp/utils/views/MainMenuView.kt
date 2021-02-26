@@ -36,12 +36,12 @@ class MainMenuView(context: Context, attrs: AttributeSet) : LinearLayout(context
         }
 
         sales.setOnClickListener {
-            args.putInt("filter", FilterCode.SALE)
+            args.putIntegerArrayList("filter", arrayListOf(FilterCode.SALE))
             navController?.navigate(R.id.to_product_list, args)
         }
 
         newest.setOnClickListener {
-            args.putInt("filter", FilterCode.NEW)
+            args.putIntegerArrayList("filter", arrayListOf(FilterCode.NEW))
             navController?.navigate(R.id.to_product_list, args)
         }
     }

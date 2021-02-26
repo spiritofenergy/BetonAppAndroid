@@ -1,6 +1,7 @@
 package com.kodexgroup.betonapp.utils.views
 
 import android.content.Context
+import android.os.Bundle
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageButton
@@ -13,8 +14,8 @@ import com.kodexgroup.betonapp.R
 import com.kodexgroup.betonapp.screens.productlist.ProductListFragment
 import com.kodexgroup.betonapp.utils.FilterCode
 import com.kodexgroup.betonapp.utils.dialogs.FiltersDialog
-import com.kodexgroup.betonapp.utils.dialogs.SearchFormDialog
 import com.kodexgroup.betonapp.utils.getFragmentManager
+import java.util.ArrayList
 
 class FiltersView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -25,6 +26,30 @@ class FiltersView(context: Context, attrs: AttributeSet) : LinearLayout(context,
     private var fm: FragmentManager? = null
     private var fragment: ProductListFragment? = null
 
+    private var filters: ArrayList<Int> = arrayListOf()
+
+    private val onDismiss: (ArrayList<Int>) -> Unit = {
+        println(filters)
+        for (code in it) {
+            if (code !in filters) {
+                filters.add(code)
+            }
+        }
+        reloadButtons()
+        if (it.isEmpty()) reload()
+    }
+
+    private var isEmpty: Boolean = true
+        set(value) {
+            field = value
+
+            if (value) {
+                empty.visibility = VISIBLE
+            } else {
+                empty.visibility = GONE
+            }
+        }
+
     init {
         val inflater = context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -34,13 +59,24 @@ class FiltersView(context: Context, attrs: AttributeSet) : LinearLayout(context,
         openDialog = root.findViewById(R.id.open_filters)
         empty = root.findViewById(R.id.empty_filters)
 
-        if (!isInEditMode) {
-            fm = getFragmentManager(context)
-        }
-
         openDialog.setOnClickListener {
             val dialog = FiltersDialog()
-//            dialog.arguments
+            dialog.setOnDismissListener {
+                onDismiss(it)
+            }
+            val args = Bundle()
+            args.putIntegerArrayList("filters", filters)
+
+            dialog.arguments = args
+            fm?.let { dialog.show(it, "") }
+        }
+
+        empty.setOnClickListener {
+            val dialog = FiltersDialog()
+            dialog.setOnDismissListener {
+                onDismiss(it)
+            }
+
             fm?.let { dialog.show(it, "") }
         }
     }
@@ -49,32 +85,52 @@ class FiltersView(context: Context, attrs: AttributeSet) : LinearLayout(context,
         super.onAttachedToWindow()
 
         if (!isInEditMode) {
+            fm = getFragmentManager(context)
+
             try {
                 fragment = findFragment()
             } catch (e: ClassCastException) { }
 
-            when (fragment?.arguments?.getInt("filter", -1)) {
-                FilterCode.SALE -> addBtn("Скидка")
-                FilterCode.NEW -> addBtn("Новые")
-                else -> { empty.visibility = VISIBLE }
-            }
+            filters = fragment?.arguments?.getIntegerArrayList("filter") ?: arrayListOf()
 
+            reloadButtons()
+
+            if (filters.isEmpty()) reload()
         }
     }
 
-    fun addBtn(textTitle: String) {
+    private fun addBtn(textTitle: String, tag: Int) {
         val button = ButtonFilterView(context, null).apply {
             isActive = true
             text = textTitle
             isInFilterView = true
         }
+        button.tag = tag
         filterList.addView(button)
+        reload()
     }
 
-    fun addButtons(list: List<String>) {
-        for (text in list) {
-            addBtn(text)
+    private fun reloadButtons() {
+        filterList.removeAllViews()
+        for (filter in filters) {
+
+            when (filter) {
+                FilterCode.NEAR -> addBtn("Рядом", FilterCode.NEAR)
+                FilterCode.SALE -> addBtn("Скидка", FilterCode.SALE)
+                FilterCode.NEW -> addBtn("Новые", FilterCode.NEW)
+            }
+
         }
+    }
+
+    fun deleteBtn(v: ButtonFilterView) {
+        filters.remove(v.tag)
+        filterList.removeView(v)
+        reload()
+    }
+
+    private fun reload() {
+        isEmpty = filterList.childCount == 0
     }
 
 }

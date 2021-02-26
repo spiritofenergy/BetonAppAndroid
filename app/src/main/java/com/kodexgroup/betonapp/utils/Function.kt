@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.view.ContextThemeWrapper
 import android.view.View
+import android.view.ViewParent
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -67,4 +68,15 @@ fun View.getImage(resId: Int, imageView: ImageView) {
 
 fun View.findParentNavController() : NavController {
     return Navigation.findNavController(context as Activity, R.id.nav_host_fragment)
+}
+
+inline fun <reified T : View> View.findParent(parent: ViewParent) : T? {
+    var isParent = parent
+    while (isParent !is T) {
+        if (isParent.parent == null) {
+            return null
+        }
+        isParent = isParent.parent
+    }
+    return isParent
 }
