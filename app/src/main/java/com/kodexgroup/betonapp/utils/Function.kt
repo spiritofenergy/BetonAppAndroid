@@ -70,7 +70,7 @@ fun View.findParentNavController() : NavController {
     return Navigation.findNavController(context as Activity, R.id.nav_host_fragment)
 }
 
-inline fun <reified T : View> View.findParent(parent: ViewParent) : T? {
+inline fun <reified T : View> findParent(parent: ViewParent) : T? {
     var isParent = parent
     while (isParent !is T) {
         if (isParent.parent == null) {

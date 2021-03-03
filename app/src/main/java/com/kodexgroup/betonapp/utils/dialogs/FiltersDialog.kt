@@ -25,6 +25,7 @@ class FiltersDialog : DialogFragment() {
     private lateinit var newestBtn: ButtonFilterView
 
     private lateinit var ready: Button
+    private lateinit var miss: Button
 
     private var filters: ArrayList<Int> = arrayListOf()
 
@@ -40,6 +41,7 @@ class FiltersDialog : DialogFragment() {
         saleBtn = root.findViewById(R.id.dialog_sale_btn)
         nearBtn = root.findViewById(R.id.dialog_near_btn)
         newestBtn = root.findViewById(R.id.dialog_newest_btn)
+        miss = root.findViewById(R.id.miss_btn)
 
         ready = root.findViewById(R.id.all_ready)
 
@@ -77,6 +79,11 @@ class FiltersDialog : DialogFragment() {
             dismiss()
         }
 
+        miss.setOnClickListener {
+            filters = arrayListOf()
+            dismiss()
+        }
+
         return root
     }
 
@@ -92,10 +99,9 @@ class FiltersDialog : DialogFragment() {
         this.listener = listener
     }
 
-    override fun onDismiss(dialog: DialogInterface, ) {
+    override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
 
-        println(filters)
         listener?.invoke(filters)
     }
 

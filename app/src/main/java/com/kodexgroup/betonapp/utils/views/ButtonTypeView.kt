@@ -70,7 +70,17 @@ class ButtonTypeView(context: Context, attributeSet: AttributeSet) : LinearLayou
 
         btn.setOnClickListener {
             val args = fragment?.arguments ?: Bundle()
-            args.putInt("type", type)
+            val types = args.getIntegerArrayList("type") ?: arrayListOf()
+
+            if (type in types) {
+                types.remove(type)
+            } else {
+                types.add(type)
+            }
+            args.putIntegerArrayList("type", types)
+
+            println(args)
+
 
             navController?.navigate(R.id.to_product_list, args)
         }
@@ -86,8 +96,8 @@ class ButtonTypeView(context: Context, attributeSet: AttributeSet) : LinearLayou
                 fragment = findFragment()
             } catch (e: ClassCastException) { }
 
-            val typeRes = fragment?.arguments?.getInt("type", -1)
-            if (typeRes != null && typeRes != -1 && type != typeRes) {
+            val types = fragment?.arguments?.getIntegerArrayList("type") ?: arrayListOf()
+            if (types.isNotEmpty() && type !in types) {
                 alpha = 0.5F
             }
 

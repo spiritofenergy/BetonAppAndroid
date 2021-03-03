@@ -23,18 +23,24 @@ class FiltersView(context: Context, attrs: AttributeSet) : LinearLayout(context,
     private val openDialog: ImageButton
     private val empty: TextView
 
+    private var args: Bundle = Bundle()
     private var fm: FragmentManager? = null
     private var fragment: ProductListFragment? = null
 
     private var filters: ArrayList<Int> = arrayListOf()
 
     private val onDismiss: (ArrayList<Int>) -> Unit = {
-        println(filters)
+        println("CODE $filters")
         for (code in it) {
             if (code !in filters) {
                 filters.add(code)
             }
         }
+        if (it.isEmpty()) filters = it
+
+        args.putIntegerArrayList("filter", filters)
+        fragment?.arguments = args
+
         reloadButtons()
         if (it.isEmpty()) reload()
     }
@@ -51,9 +57,9 @@ class FiltersView(context: Context, attrs: AttributeSet) : LinearLayout(context,
         }
 
     init {
-        val inflater = context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        val root = inflater.inflate(R.layout.view_filters, this, true)
+        val root = inflate(context, R.layout.view_filters, this)
+
+        args = fragment?.arguments ?: Bundle()
 
         filterList = root.findViewById(R.id.filters_list)
         openDialog = root.findViewById(R.id.open_filters)
@@ -125,6 +131,10 @@ class FiltersView(context: Context, attrs: AttributeSet) : LinearLayout(context,
 
     fun deleteBtn(v: ButtonFilterView) {
         filters.remove(v.tag)
+
+        args.putIntegerArrayList("filter", filters)
+        fragment?.arguments = args
+
         filterList.removeView(v)
         reload()
     }

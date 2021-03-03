@@ -30,7 +30,7 @@ class SplashFragment : Fragment() {
 
             override fun onAnimationEnd(animation: Animation?) {
                 val navController = findNavController()
-                navController.navigate(R.id.login)
+                navController.navigate(R.id.is_signed_to_home)
             }
 
             override fun onAnimationRepeat(animation: Animation?) { }
