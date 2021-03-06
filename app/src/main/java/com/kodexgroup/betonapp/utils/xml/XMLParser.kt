@@ -27,6 +27,7 @@ class XMLParser {
         val list: MutableList<T> = mutableListOf()
         var obj: T? = null
         var tag = ""
+        var isText = false
 
         try {
             while (xpp.eventType != XmlPullParser.END_DOCUMENT) {
@@ -39,6 +40,10 @@ class XMLParser {
                     }
 
                     XmlPullParser.END_TAG -> {
+                        if (!isText) {
+                            obj?.setData(tag, null)
+                        }
+                        isText = false
                         if (xpp.name  == startTag) {
                             if (obj != null) {
                                 list.add(obj)
@@ -49,6 +54,7 @@ class XMLParser {
                     }
 
                     XmlPullParser.TEXT -> {
+                        isText = true
                         obj?.setData(tag, xpp.text)
                     }
                 }

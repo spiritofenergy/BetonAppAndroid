@@ -69,7 +69,6 @@
             android:layout_margin="5dp"
             android:adjustViewBounds="true"
             android:background="@drawable/ic_circle_yellow"
-            android:contentDescription="TODO"
             android:elevation="20dp"
             android:foreground="?android:attr/selectableItemBackground"
             android:padding="6dp"

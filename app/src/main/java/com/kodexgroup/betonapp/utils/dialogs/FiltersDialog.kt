@@ -24,6 +24,11 @@ class FiltersDialog : DialogFragment() {
     private lateinit var nearBtn: ButtonFilterView
     private lateinit var newestBtn: ButtonFilterView
 
+    private lateinit var rating2: ButtonFilterView
+    private lateinit var rating3: ButtonFilterView
+    private lateinit var rating4: ButtonFilterView
+    private lateinit var rating5: ButtonFilterView
+
     private lateinit var ready: Button
     private lateinit var miss: Button
 
@@ -42,6 +47,11 @@ class FiltersDialog : DialogFragment() {
         nearBtn = root.findViewById(R.id.dialog_near_btn)
         newestBtn = root.findViewById(R.id.dialog_newest_btn)
         miss = root.findViewById(R.id.miss_btn)
+
+        rating2 = root.findViewById(R.id.rating_2)
+        rating3 = root.findViewById(R.id.rating_3)
+        rating4 = root.findViewById(R.id.rating_4)
+        rating5 = root.findViewById(R.id.rating_5)
 
         ready = root.findViewById(R.id.all_ready)
 
@@ -73,6 +83,34 @@ class FiltersDialog : DialogFragment() {
                 filters.add(FilterCode.NEW)
             else
                 filters.remove(FilterCode.NEW)
+        }
+
+        rating2.setOnClickBtnListener {
+            if (rating2.isActive)
+                filters.add(FilterCode.RATING_2)
+            else
+                filters.remove(FilterCode.RATING_2)
+        }
+
+        rating3.setOnClickBtnListener {
+            if (rating3.isActive)
+                filters.add(FilterCode.RATING_3)
+            else
+                filters.remove(FilterCode.RATING_3)
+        }
+
+        rating4.setOnClickBtnListener {
+            if (rating4.isActive)
+                filters.add(FilterCode.RATING_4)
+            else
+                filters.remove(FilterCode.RATING_4)
+        }
+
+        rating5.setOnClickBtnListener {
+            if (rating5.isActive)
+                filters.add(FilterCode.RATING_5)
+            else
+                filters.remove(FilterCode.RATING_5)
         }
 
         ready.setOnClickListener {

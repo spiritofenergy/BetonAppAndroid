@@ -13,7 +13,7 @@ open class SecondFragment : Fragment() {
     private lateinit var frame: FrameLayout
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val root = inflater.inflate(R.layout.pattern_second, container, false)
 
         frame = root.findViewById(R.id.frame_second)

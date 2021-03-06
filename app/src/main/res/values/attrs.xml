@@ -38,5 +38,20 @@
     <declare-styleable name="ButtonFilterView">
         <attr name="active" format="boolean" />
         <attr name="text" format="string" />
+        <attr name="ratingCount" format="float" />
+        <attr name="ratingSuffix" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="EmptyView">
+        <attr name="headText" format="string" />
+        <attr name="subText" format="string" />
+        <attr name="actionLabel" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="RatingView">
+        <attr name="rating" format="float" />
+        <attr name="textSize" format="dimension" />
+        <attr name="size" format="dimension" />
+        <attr name="suffix" format="string" />
     </declare-styleable>
 </resources>

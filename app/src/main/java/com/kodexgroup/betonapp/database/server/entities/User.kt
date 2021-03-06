@@ -22,16 +22,17 @@ class User : IXMLClass {
         const val LOGIN = "Login"
     }
 
-    override fun setData(key: String, value: String) {
+    override fun setData(key: String, value: String?) {
+        val newValue = value ?: ""
         when (key) {
             ID -> {
-                _id = value
+                _id = newValue
             }
             NAME -> {
-                _name = value
+                _name = newValue
             }
             LOGIN -> {
-                _login = value
+                _login = newValue
             }
         }
     }

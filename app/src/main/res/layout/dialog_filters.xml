@@ -126,6 +126,46 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5">
+
+        <com.kodexgroup.betonapp.utils.views.ButtonFilterView
+            android:id="@+id/rating_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:active="false"
+            app:ratingCount="5" />
+
+        <com.kodexgroup.betonapp.utils.views.ButtonFilterView
+            android:id="@+id/rating_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:active="false"
+            app:ratingCount="4"
+            app:ratingSuffix="+"
+            tools:layout_editor_absoluteX="87dp" />
+
+        <com.kodexgroup.betonapp.utils.views.ButtonFilterView
+            android:id="@+id/rating_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:active="false"
+            app:ratingCount="3"
+            app:ratingSuffix="+"
+            app:text="Рядом"
+            tools:layout_editor_absoluteX="171dp"
+            tools:layout_editor_absoluteY="34dp" />
+
+        <com.kodexgroup.betonapp.utils.views.ButtonFilterView
+            android:id="@+id/rating_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:active="false"
+            app:ratingCount="2"
+            app:ratingSuffix="+"
+            app:text="Скидка"
+            tools:layout_editor_absoluteX="146dp"
+            tools:layout_editor_absoluteY="34dp" />
+
+    </com.google.android.flexbox.FlexboxLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

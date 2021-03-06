@@ -5,11 +5,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.*
-import android.widget.Toolbar
+import android.widget.LinearLayout
 import androidx.fragment.app.DialogFragment
-import com.google.android.flexbox.FlexboxLayout
 import com.kodexgroup.betonapp.R
-import com.kodexgroup.betonapp.screens.SecondFragment
 import com.kodexgroup.betonapp.utils.views.DialogContentView
 import com.kodexgroup.betonapp.utils.views.MiniCardProductView
 import com.kodexgroup.betonapp.utils.views.SearchBlockView
@@ -19,15 +17,15 @@ class SearchFormDialog : DialogFragment() {
 
     private lateinit var searchLock: SearchBlockView
     private lateinit var history: DialogContentView
-    private lateinit var specialForYou: FlexboxLayout
+    private lateinit var specialForYou: LinearLayout
     private lateinit var popular: DialogContentView
 
     private var listener: (() -> Unit)? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.dialog_search, container, false)
 
@@ -40,10 +38,12 @@ class SearchFormDialog : DialogFragment() {
         popular.addMiniButtons(listOf("", "", ""))
 
         history.setOnBtnClickListener {
+            // TODO("DELETE HISTORY")
             println("Delete")
         }
 
         popular.setOnBtnClickListener {
+            // TODO("RELOAD POPULAR")
             println("Reload")
         }
 
@@ -52,9 +52,18 @@ class SearchFormDialog : DialogFragment() {
 
     override fun onResume() {
         super.onResume()
+        val param = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                1.0f
+        )
 
-        specialForYou.addView(MiniCardProductView(requireContext(), null))
-        specialForYou.addView(MiniCardProductView(requireContext(), null))
+        for (i in 1..2) {
+            val card = MiniCardProductView(requireContext(), null)
+
+            card.layoutParams = param
+            specialForYou.addView(card)
+        }
     }
 
     override fun onStart() {
@@ -71,7 +80,7 @@ class SearchFormDialog : DialogFragment() {
         this.listener = listener
     }
 
-    override fun onDismiss(dialog: DialogInterface, ) {
+    override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         searchLock.clearFocusForm()
 

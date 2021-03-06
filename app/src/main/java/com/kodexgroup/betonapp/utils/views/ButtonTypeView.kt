@@ -39,7 +39,7 @@ class ButtonTypeView(context: Context, attributeSet: AttributeSet) : LinearLayou
             titleTypeTxt.text = value
         }
 
-    var preview: Int = R.color.hint
+    private var preview: Int = R.color.hint
         set(value) {
             field = value
 
@@ -77,12 +77,20 @@ class ButtonTypeView(context: Context, attributeSet: AttributeSet) : LinearLayou
             } else {
                 types.add(type)
             }
-            args.putIntegerArrayList("type", types)
 
+            args.putIntegerArrayList("type", types)
             println(args)
 
-
-            navController?.navigate(R.id.to_product_list, args)
+            if (fragment == null) {
+                navController?.navigate(R.id.to_product_list, args)
+            } else {
+                if (fragment?.arguments != null) {
+                    fragment?.arguments?.putIntegerArrayList("type", types)
+                } else {
+                    fragment?.arguments = args
+                }
+                fragment?.onReloadedState()
+            }
         }
     }
 
@@ -96,11 +104,17 @@ class ButtonTypeView(context: Context, attributeSet: AttributeSet) : LinearLayou
                 fragment = findFragment()
             } catch (e: ClassCastException) { }
 
-            val types = fragment?.arguments?.getIntegerArrayList("type") ?: arrayListOf()
-            if (types.isNotEmpty() && type !in types) {
-                alpha = 0.5F
-            }
+            reloadAlpha()
 
+        }
+    }
+
+    fun reloadAlpha() {
+        val types = fragment?.arguments?.getIntegerArrayList("type") ?: arrayListOf()
+        alpha = if (types.isNotEmpty() && type !in types) {
+            0.5F
+        } else {
+            1f
         }
     }
 }

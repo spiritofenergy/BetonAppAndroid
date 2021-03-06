@@ -42,6 +42,7 @@ class FiltersView(context: Context, attrs: AttributeSet) : LinearLayout(context,
         fragment?.arguments = args
 
         reloadButtons()
+        stateReload()
         if (it.isEmpty()) reload()
     }
 
@@ -116,6 +117,18 @@ class FiltersView(context: Context, attrs: AttributeSet) : LinearLayout(context,
         reload()
     }
 
+    private fun addRating(rating: Float, suffix: String, tag: Int) {
+        val button = ButtonFilterView(context, null).apply {
+            isActive = true
+            this.rating = rating
+            this.suffix = suffix
+            isInFilterView = true
+        }
+        button.tag = tag
+        filterList.addView(button)
+        reload()
+    }
+
     private fun reloadButtons() {
         filterList.removeAllViews()
         for (filter in filters) {
@@ -124,6 +137,11 @@ class FiltersView(context: Context, attrs: AttributeSet) : LinearLayout(context,
                 FilterCode.NEAR -> addBtn("Рядом", FilterCode.NEAR)
                 FilterCode.SALE -> addBtn("Скидка", FilterCode.SALE)
                 FilterCode.NEW -> addBtn("Новые", FilterCode.NEW)
+
+                FilterCode.RATING_2 -> addRating(2f, "+", FilterCode.RATING_2)
+                FilterCode.RATING_3 -> addRating(3f, "+", FilterCode.RATING_3)
+                FilterCode.RATING_4 -> addRating(4f, "+", FilterCode.RATING_4)
+                FilterCode.RATING_5 -> addRating(5f, "", FilterCode.RATING_5)
             }
 
         }
@@ -137,10 +155,17 @@ class FiltersView(context: Context, attrs: AttributeSet) : LinearLayout(context,
 
         filterList.removeView(v)
         reload()
+        stateReload()
     }
 
     private fun reload() {
         isEmpty = filterList.childCount == 0
+    }
+
+    private fun stateReload() {
+
+        fragment?.onReloadedState()
+
     }
 
 }

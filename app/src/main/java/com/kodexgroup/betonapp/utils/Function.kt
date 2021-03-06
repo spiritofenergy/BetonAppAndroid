@@ -2,6 +2,7 @@ package com.kodexgroup.betonapp.utils
 
 import android.app.Activity
 import android.content.Context
+import android.util.TypedValue
 import android.view.ContextThemeWrapper
 import android.view.View
 import android.view.ViewParent
@@ -48,6 +49,10 @@ fun View.dpToPx(dp: Float) : Int {
 fun Fragment.dpToPx(dp: Float) : Int {
     val scale: Float = resources.displayMetrics.density
     return (dp * scale + 0.5f).toInt()
+}
+
+fun spToPx(sp: Float, context: Context) : Float {
+    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp, context.resources.displayMetrics)
 }
 
 fun View.getFragmentManager(context: Context?) : FragmentManager? {
