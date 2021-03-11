@@ -32,14 +32,14 @@ class ButtonFilterView(context: Context, attrs: AttributeSet?) : LinearLayout(co
                 activeView.visibility = View.VISIBLE
 
                 ratingBtn.setBackgroundResource(R.drawable.ic_filter_border_active)
-                ratingView.setTextColor(R.color.yellow_700)
+                ratingView.setTextColor(ContextCompat.getColor(context, R.color.yellow_700))
             } else {
                 button.setBackgroundResource(R.drawable.ic_filter_border_normal)
                 button.setTextColor(ContextCompat.getColor(context, R.color.hint))
                 activeView.visibility = View.INVISIBLE
 
                 ratingBtn.setBackgroundResource(R.drawable.ic_filter_border_normal)
-                ratingView.setTextColor(R.color.hint)
+                ratingView.setTextColor(ContextCompat.getColor(context, R.color.hint))
             }
         }
 

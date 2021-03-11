@@ -16,7 +16,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class FactoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class FactoryCardView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     private val card: CardView
     private val titleTxt: TextView
@@ -86,7 +86,11 @@ class FactoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(cont
     fun addFactory(factory: Factory) {
         this.factory = factory
 
+        titleTxt.text = factory.factoryName
 
+        rateTxt.text = context.getString(R.string.rating, factory.factoryRate, "")
+        priceTxt.text = context.getString(R.string.factory_price_average, factory.factoryAveragePrice)
+        subText.text = context.getString(R.string.count_order, factory.factoryCountOrders)
     }
 
 }
