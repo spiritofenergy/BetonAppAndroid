@@ -10,7 +10,10 @@ import com.kodexgroup.betonapp.R
 class FactoryFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val root = inflater.inflate(R.layout.content_product, container, false)
+        val root = inflater.inflate(R.layout.content_factory, container, false)
+
+        val id = arguments?.getString("factoryId") ?: ""
+        FactoryFragmentController(this, requireContext(), root, id)
 
         return root
     }

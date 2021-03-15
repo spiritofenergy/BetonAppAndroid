@@ -17,17 +17,17 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.IOException
 
 class FactoryListView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-    private val listFactory: RecyclerView
-    private val loaded: ProgressBar
-    private val emptyView: EmptyView
+    val listFactory: RecyclerView
+    val loaded: ProgressBar
+    val emptyView: EmptyView
 
-    private var fragment: ProductListFragment? = null
     private val adapter =  FactoryListAdapter(context)
 
-    private  var isEmpty: Boolean = false
+    var isEmpty: Boolean = false
         set(value) {
             field = value
 
@@ -35,6 +35,21 @@ class FactoryListView(context: Context, attrs: AttributeSet) : LinearLayout(cont
                 loaded.visibility = GONE
                 listFactory.visibility = GONE
                 emptyView.visibility = VISIBLE
+            } else {
+                loaded.visibility = GONE
+                listFactory.visibility = VISIBLE
+                emptyView.visibility = GONE
+            }
+        }
+
+    var isLoad: Boolean = true
+        set(value) {
+            field = value
+
+            if (value) {
+                emptyView.visibility = GONE
+                loaded.visibility = VISIBLE
+                listFactory.visibility = GONE
             } else {
                 loaded.visibility = GONE
                 listFactory.visibility = VISIBLE
@@ -51,51 +66,21 @@ class FactoryListView(context: Context, attrs: AttributeSet) : LinearLayout(cont
 
         listFactory.layoutManager = LinearLayoutManager(context)
 
-        emptyView.setOnActionListener {
-            load()
-        }
-
         listFactory.adapter = adapter
     }
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
+    fun emptyInternetLost() {
+        emptyView.title = "Отсутствует подключение к интернету."
+        emptyView.subText = "Проверьте ваше подключение или обновите список."
 
-        if (!isInEditMode) {
-            try {
-                fragment = findFragment()
-            } catch (e: ClassCastException) { }
-            load()
-        }
+        isEmpty = true
+
     }
 
-    fun load() {
-        emptyView.visibility = GONE
-        loaded.visibility = VISIBLE
-        listFactory.visibility = GONE
+    fun showList(list: List<Factory>) {
+        adapter.reload(list)
 
-        CoroutineScope(Dispatchers.IO).launch {
+        isLoad = false
 
-
-            val factoryDAO = ServerController().factoryDAO
-            val list = factoryDAO.getFactory()
-
-            if (list.isNotEmpty()) {
-                showList(list.reversed())
-            } else {
-                withContext(Dispatchers.Main) {
-                    isEmpty = true
-                }
-            }
-        }
-    }
-
-    private suspend fun showList(list: List<Factory>) {
-        withContext(Dispatchers.Main) {
-            adapter.reload(list)
-
-            loaded.visibility = GONE
-            listFactory.visibility = VISIBLE
-        }
     }
 }

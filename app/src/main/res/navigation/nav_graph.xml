@@ -22,7 +22,9 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"/>
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/nav_graph"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -52,19 +54,8 @@
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
-            android:id="@+id/to_product_list"
-            app:destination="@id/productListFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/to_factory_home"
-            app:destination="@id/factoryFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            android:id="@+id/to_dialog"
+            app:destination="@id/searchFormDialog" />
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
@@ -81,39 +72,9 @@
             app:popUpTo="@id/nav_graph"
             app:popUpToInclusive="true" />
     </fragment>
-    <fragment
-        android:id="@+id/productListFragment"
-        android:name="com.kodexgroup.betonapp.screens.productlist.ProductListFragment"
-        android:label="Second"
-        tools:layout="@layout/content_product_list" >
-        <action
-            android:id="@+id/to_product"
-            app:destination="@id/productFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
-    <fragment
-        android:id="@+id/productFragment"
-        android:name="com.kodexgroup.betonapp.screens.product.ProductFragment"
-        android:label="ProductFragment"
-        tools:layout="@layout/content_product" >
-        <action
-            android:id="@+id/to_factory_product"
-            app:destination="@id/factoryFragment" />
-        <action
-            android:id="@+id/to_product"
-            app:destination="@id/productFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:launchSingleTop="true"
-            app:popUpToInclusive="true" />
-    </fragment>
-    <fragment
-        android:id="@+id/factoryFragment"
-        android:name="com.kodexgroup.betonapp.screens.factory.FactoryFragment"
-        android:label="FactoryFragment" />
+    <dialog
+        android:id="@+id/searchFormDialog"
+        android:name="com.kodexgroup.betonapp.utils.dialogs.SearchFormDialog"
+        android:label="SearchFormDialog"
+        tools:layout="@layout/dialog_search" />
 </navigation>

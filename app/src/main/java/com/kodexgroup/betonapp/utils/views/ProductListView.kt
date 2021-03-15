@@ -31,12 +31,11 @@ class ProductListView(context: Context, attrs: AttributeSet) : LinearLayout(cont
 
     private val listProduct: RecyclerView
     private val loaded: ProgressBar
-    private val emptyView: EmptyView
+    val emptyView: EmptyView
 
-    private var fragment: ProductListFragment? = null
     private val adapter =  ProductListAdapter()
 
-    private  var isEmpty: Boolean = false
+    var isEmpty: Boolean = false
         set(value) {
             field = value
 
@@ -44,6 +43,21 @@ class ProductListView(context: Context, attrs: AttributeSet) : LinearLayout(cont
                 loaded.visibility = GONE
                 listProduct.visibility = GONE
                 emptyView.visibility = VISIBLE
+            } else {
+                loaded.visibility = GONE
+                listProduct.visibility = VISIBLE
+                emptyView.visibility = GONE
+            }
+        }
+
+    var isLoad: Boolean = true
+        set(value) {
+            field = value
+
+            if (value) {
+                emptyView.visibility = GONE
+                loaded.visibility = VISIBLE
+                listProduct.visibility = GONE
             } else {
                 loaded.visibility = GONE
                 listProduct.visibility = VISIBLE
@@ -60,102 +74,30 @@ class ProductListView(context: Context, attrs: AttributeSet) : LinearLayout(cont
 
         listProduct.layoutManager = LinearLayoutManager(context)
 
-        emptyView.setOnActionListener {
-            load()
-        }
-
         listProduct.adapter = adapter
     }
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
+    fun showList(list: List<Product>) {
+        val newList = mutableListOf<Pair<Product, Product?>>()
 
-        if (!isInEditMode) {
-            try {
-                fragment = findFragment()
-            } catch (e: ClassCastException) { }
-            load()
+        val iterator = list.iterator()
+        iterator.forEach { product ->
+            val next = if (iterator.hasNext()) iterator.next() else null
+            val pair = Pair(product, next)
+
+            newList.add(pair)
         }
+        println(newList)
+        adapter.reload(newList)
+
+        isLoad = false
+
     }
 
-    fun load() {
-        val types = fragment?.arguments?.getIntegerArrayList("type")
+    fun emptyInternetLost() {
+        emptyView.title = "Отсутствует подключение к интернету."
+        emptyView.subText = "Проверьте ваше подключение или обновите список."
 
-        emptyView.visibility = GONE
-        loaded.visibility = VISIBLE
-        listProduct.visibility = GONE
-
-        CoroutineScope(Dispatchers.IO).launch {
-
-
-            val productDAO = ServerController().productDAO
-            var list = productDAO.getProducts(type = types)
-
-            list = filtersList(list)
-            if (list.isNotEmpty()) {
-                showList(list)
-            } else {
-                withContext(Dispatchers.Main) {
-                    isEmpty = true
-                }
-            }
-        }
-    }
-
-    private fun filtersList(list: List<Product>) : List<Product> {
-        var newList: List<Product> = list
-
-        val filters = fragment?.arguments?.getIntegerArrayList("filter")
-        filters?.apply {
-            for (filter in this) {
-
-                when (filter) {
-                    FilterCode.NEAR -> {
-
-                    }
-                    FilterCode.SALE -> {
-                        newList = newList.filter { it.productSale != 0 }
-                    }
-                    FilterCode.NEW -> {
-
-                    }
-
-                    FilterCode.RATING_2 -> {
-
-                    }
-                    FilterCode.RATING_3-> {
-
-                    }
-                    FilterCode.RATING_4 -> {
-
-                    }
-                    FilterCode.RATING_5 -> {
-
-                    }
-                }
-
-            }
-        }
-
-        return newList
-    }
-
-    private suspend fun showList(list: List<Product>) {
-        withContext(Dispatchers.Main) {
-            val newList = mutableListOf<Pair<Product, Product?>>()
-
-            val iterator = list.iterator()
-            iterator.forEach { product ->
-                val next = if (iterator.hasNext()) iterator.next() else null
-                val pair = Pair(product, next)
-
-                newList.add(pair)
-            }
-            println(newList)
-            adapter.reload(newList)
-
-            loaded.visibility = GONE
-            listProduct.visibility = VISIBLE
-        }
+        isEmpty = true
     }
 }

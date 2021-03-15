@@ -1,10 +1,14 @@
-package com.kodexgroup.betonapp.utils.controllers
+package com.kodexgroup.betonapp.screens.product
 
+import androidx.fragment.app.Fragment
 import android.content.Context
 import android.graphics.Paint
+import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.kodexgroup.betonapp.R
 import com.kodexgroup.betonapp.database.server.ServerController
 import com.kodexgroup.betonapp.database.server.entities.Factory
@@ -18,7 +22,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 
-class ProductFragmentController(private val context: Context, view: View, productId: String) {
+class ProductFragmentController(private val fragment: Fragment, private val context: Context, view: View, productId: String) {
 
     private val previewProduct: ImageView = view.findViewById(R.id.image_main_product)
     private val title: TextView = view.findViewById(R.id.title_product)
@@ -37,13 +41,23 @@ class ProductFragmentController(private val context: Context, view: View, produc
     private val cardFirst: MiniCardProductView = view.findViewById(R.id.first_card)
     private val cardSecond: MiniCardProductView = view.findViewById(R.id.second_card)
 
-    private var product: Product? = null
-    private var factory: Factory? = null
+    private val titleLiked: TextView = view.findViewById(R.id.title_liked)
+    private val likedBlock: View = view.findViewById(R.id.liked_block)
+
+    private val viewModel: ProductViewModel = ViewModelProvider(fragment).get(ProductViewModel::class.java)
+
+    private var product: Product? = viewModel.product
+    private var factory: Factory? = viewModel.factory
 
     init {
+        println(product)
         CoroutineScope(Dispatchers.IO).launch {
-            getProduct(productId)
+            if (product == null) getProduct(productId)
             setProduct()
+            product?.apply {
+                getFactory(factory)
+                getLiked(productType)
+            }
         }
     }
 
@@ -60,8 +74,7 @@ class ProductFragmentController(private val context: Context, view: View, produc
         withContext(Dispatchers.Main) {
 
             product?.apply {
-                getFactory(factory)
-                getLiked(productType)
+                viewModel.product = this
 
                 previewProduct.setImageResource(R.drawable.concrete)
 
@@ -100,11 +113,13 @@ class ProductFragmentController(private val context: Context, view: View, produc
     }
 
     private suspend fun getFactory(id: String) {
-        val dao = ServerController().factoryDAO
+        if (factory == null) {
+            val dao = ServerController().factoryDAO
 
-        val factories = dao.getFactory(id = id)
-        if (factories.isNotEmpty()) {
-            factory = factories.first()
+            val factories = dao.getFactory(id = id)
+            if (factories.isNotEmpty()) {
+                factory = factories.first()
+            }
         }
 
         setFactory()
@@ -114,11 +129,19 @@ class ProductFragmentController(private val context: Context, view: View, produc
         withContext(Dispatchers.Main) {
 
             factory?.apply {
+                viewModel.factory = this
                 titleFactory.text = factoryName
 
                 factoryBlock.background = null
                 titleFactory.visibility = View.VISIBLE
                 factoryBtn.visibility = View.VISIBLE
+
+                factoryBtn.setOnClickListener {
+                    val args = Bundle()
+                    args.putString("factoryId", factoryId)
+
+                    fragment.findNavController().navigate(R.id.to_factory, args)
+                }
             }
 
         }
@@ -127,13 +150,24 @@ class ProductFragmentController(private val context: Context, view: View, produc
     private suspend fun getLiked(productType: Int) {
         val dao = ServerController().productDAO
 
-        var products = dao.getProducts(type = listOf(productType))
-        products = products.filter { it.productId != product?.productId }
+        var products: List<Product?>
+        if (viewModel.liked == null) {
+            products = dao.getProducts(type = listOf(productType))
+            products = products.filter { it.productId != product?.productId }
+        } else {
+            products = viewModel.liked!!
+        }
 
         withContext(Dispatchers.Main) {
             if (products.isNotEmpty()) {
-                cardFirst.addProduct(products[0])
-                cardSecond.addProduct(products.getOrNull(1))
+                val list = listOf(products[0], products.getOrNull(1))
+                viewModel.liked = list
+
+                cardFirst.addProduct(list[0])
+                cardSecond.addProduct(list[1])
+            } else {
+                titleLiked.visibility = View.GONE
+                likedBlock.visibility = View.GONE
             }
         }
     }

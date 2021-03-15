@@ -34,13 +34,11 @@ class ReviewBlockView(context: Context, attrs: AttributeSet) : LinearLayout(cont
             countTxt.text = list.size.toString()
             empty.visibility = GONE
 
-            card.visibility = VISIBLE
-
             if (list.size > 2) {
                 open.visibility = VISIBLE
             }
         } else {
-            empty.visibility = VISIBLE
+            card.visibility = GONE
             countTxt.text = "0"
         }
 

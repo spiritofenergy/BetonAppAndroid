@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
 import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.kodexgroup.betonapp.R
 import com.kodexgroup.betonapp.utils.FilterCode
 import com.kodexgroup.betonapp.utils.findParentNavController
@@ -50,7 +51,7 @@ class MainMenuView(context: Context, attrs: AttributeSet) : LinearLayout(context
         super.onAttachedToWindow()
 
         if (!isInEditMode) {
-            navController = findParentNavController()
+            navController = findNavController()
         }
     }
 

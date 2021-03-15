@@ -21,14 +21,14 @@ class ToolbarView(context: Context, attributeSet: AttributeSet) : Toolbar(contex
 
     private val searchBtn: ImageButton
 
-    private var fm: FragmentManager? = null
-
     var search: Boolean = false
         set(value) {
             field = value
 
             if (value) {
                 searchBtn.visibility = View.VISIBLE
+            } else {
+                searchBtn.visibility = View.INVISIBLE
             }
         }
 
@@ -37,20 +37,15 @@ class ToolbarView(context: Context, attributeSet: AttributeSet) : Toolbar(contex
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val root = inflater.inflate(R.layout.toolbar_app_default, this, true)
 
-        if (!isInEditMode) {
-            fm = getFragmentManager(context)
-        }
-
         searchBtn = root.findViewById(R.id.search_toolbar)
         searchBtn.setOnClickListener {
-            val dialog = SearchFormDialog()
-            fm?.let { dialog.show(it, "") }
+            findNavController().navigate(R.id.to_dialog)
         }
 
-        setNavigationOnClickListener {
-            val navController = findNavController()
-            navController.popBackStack()
-        }
+//        setNavigationOnClickListener {
+//            val navController = findNavController()
+//            navController.popBackStack()
+//        }
 
         context.obtainStyledAttributes(attributeSet,
                 R.styleable.ToolbarView, 0, 0)

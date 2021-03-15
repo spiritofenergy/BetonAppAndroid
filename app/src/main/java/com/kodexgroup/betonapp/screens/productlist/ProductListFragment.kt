@@ -8,20 +8,23 @@ import android.widget.LinearLayout
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import com.kodexgroup.betonapp.R
-import com.kodexgroup.betonapp.screens.SecondFragment
 import com.kodexgroup.betonapp.utils.views.ButtonTypeView
-import com.kodexgroup.betonapp.utils.views.FiltersView
 import com.kodexgroup.betonapp.utils.views.ProductListView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class ProductListFragment : SecondFragment() {
+class ProductListFragment : Fragment() {
 
     private lateinit var productList: ProductListView
     private lateinit var btns: LinearLayout
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val root = super.onCreateView(inflater, container, savedInstanceState)
+    private lateinit var controller: ProductListFragmentController
 
-        addView(LayoutInflater.from(context).inflate(R.layout.content_product_list, null))
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        val root = inflater.inflate(R.layout.content_product_list, container, false)
+
+        controller = ProductListFragmentController(this, requireContext(), root)
 
         productList = root.findViewById(R.id.product_list_view)
         btns = root.findViewById(R.id.types_product)
@@ -31,7 +34,11 @@ class ProductListFragment : SecondFragment() {
 
     fun onReloadedState() {
         println(arguments)
-        productList.load()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            controller.reloadList()
+        }
+
         for (btn in btns.children) {
             if (btn is ButtonTypeView) {
                 btn.reloadAlpha()

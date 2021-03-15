@@ -6,19 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.kodexgroup.betonapp.R
-import com.kodexgroup.betonapp.screens.SecondFragment
-import com.kodexgroup.betonapp.utils.controllers.ProductFragmentController
 
-class ProductFragment : SecondFragment() {
+class ProductFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        val root = super.onCreateView(inflater, container, savedInstanceState)
+        val root = inflater.inflate(R.layout.content_product, container, false)
 
         val id = arguments?.getString("productId") ?: ""
 
-        addView(inflater.inflate(R.layout.content_product, null))
-        ProductFragmentController(requireContext(), root, id)
-
+        ProductFragmentController(this, requireContext(), root, id)
 
         return root
     }

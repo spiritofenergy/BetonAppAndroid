@@ -1,6 +1,7 @@
 package com.kodexgroup.betonapp.utils.views
 
 import android.content.Context
+import android.os.Bundle
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +10,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.navigation.findNavController
 import com.kodexgroup.betonapp.R
 import com.kodexgroup.betonapp.database.server.entities.Factory
+import com.kodexgroup.betonapp.utils.findParentNavController
 import com.kodexgroup.betonapp.utils.getImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -69,7 +72,9 @@ class FactoryCardView(context: Context, attrs: AttributeSet?) : LinearLayout(con
         card.setOnClickListener {
             println("Factory")
 
-            // TODO("ADD FACTORY")
+            val args = Bundle()
+            args.putString("factoryId", factory?.factoryId)
+            findNavController().navigate(R.id.to_factory, args)
         }
 
         favorite.setOnClickListener {

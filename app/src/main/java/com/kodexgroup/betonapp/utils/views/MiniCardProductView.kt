@@ -15,11 +15,11 @@ import androidx.navigation.findNavController
 import com.kodexgroup.betonapp.R
 import com.kodexgroup.betonapp.database.server.ServerController
 import com.kodexgroup.betonapp.database.server.entities.Product
+import com.kodexgroup.betonapp.utils.findParentNavController
 import com.kodexgroup.betonapp.utils.getImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.util.*
 
 class MiniCardProductView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
@@ -113,6 +113,12 @@ class MiniCardProductView(context: Context, attrs: AttributeSet?) : LinearLayout
             mainImage.visibility = VISIBLE
         } else {
             card.visibility = INVISIBLE
+        }
+    }
+
+    fun setOnClickCardListener(listener: (id: String?) -> Unit) {
+        card.setOnClickListener {
+            listener(product?.productId)
         }
     }
 

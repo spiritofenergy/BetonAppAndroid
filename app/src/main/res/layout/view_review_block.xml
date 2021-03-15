@@ -109,7 +109,6 @@
         android:layout_marginRight="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:rating="4"
         app:size="15dp"
         app:textColor="@color/black"
         app:textSize="13sp"
