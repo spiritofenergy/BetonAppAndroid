@@ -6,6 +6,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <com.kodexgroup.betonapp.utils.views.ToolbarView
+        android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/MyToolbar"
+        app:contentInsetLeft="0dp"
+        app:contentInsetRight="0dp"
+        app:contentInsetStart="0dp"
+        app:contentInsetStartWithNavigation="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:search="false" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav_app"
         android:layout_width="0dp"
@@ -20,13 +36,21 @@
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_controller_app"
-        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:defaultNavHost="true"
         app:layout_constraintBottom_toTopOf="@+id/bottom_nav_app"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/app_graph" />
+        app:layout_constraintTop_toBottomOf="@+id/main_toolbar" />
+
+    <View
+        android:id="@+id/shadow"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@drawable/ic_toolbar_shadow"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/main_toolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

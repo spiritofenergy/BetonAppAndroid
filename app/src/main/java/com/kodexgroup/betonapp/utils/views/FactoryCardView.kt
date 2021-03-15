@@ -1,6 +1,7 @@
 package com.kodexgroup.betonapp.utils.views
 
 import android.content.Context
+import android.os.Bundle
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -9,14 +10,16 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.navigation.findNavController
 import com.kodexgroup.betonapp.R
 import com.kodexgroup.betonapp.database.server.entities.Factory
+import com.kodexgroup.betonapp.utils.findParentNavController
 import com.kodexgroup.betonapp.utils.getImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class FactoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class FactoryCardView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     private val card: CardView
     private val titleTxt: TextView
@@ -69,7 +72,9 @@ class FactoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(cont
         card.setOnClickListener {
             println("Factory")
 
-            // TODO("ADD FACTORY")
+            val args = Bundle()
+            args.putString("factoryId", factory?.factoryId)
+            findNavController().navigate(R.id.to_factory, args)
         }
 
         favorite.setOnClickListener {
@@ -86,7 +91,11 @@ class FactoryCardView(context: Context, attrs: AttributeSet) : LinearLayout(cont
     fun addFactory(factory: Factory) {
         this.factory = factory
 
+        titleTxt.text = factory.factoryName
 
+        rateTxt.text = context.getString(R.string.rating, factory.factoryRate, "")
+        priceTxt.text = context.getString(R.string.factory_price_average, factory.factoryAveragePrice)
+        subText.text = context.getString(R.string.count_order, factory.factoryCountOrders)
     }
 
 }

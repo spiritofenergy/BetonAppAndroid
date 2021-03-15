@@ -15,12 +15,13 @@
         android:layout_marginEnd="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginBottom="5dp"
-        android:background="@color/white"
+        android:background="@color/borders"
         android:clickable="true"
         android:clipChildren="true"
         android:clipToPadding="true"
         android:elevation="30dp"
         android:foreground="?android:attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/borders"
         app:cardCornerRadius="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,13 +33,18 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:scaleType="centerCrop"
-            tools:srcCompat="@drawable/concrete" />
+            android:visibility="invisible"
+            tools:srcCompat="@drawable/concrete"
+            tools:visibility="visible" />
 
         <LinearLayout
+            android:id="@+id/sale_block"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="invisible"
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/sale_mini_card"
@@ -85,13 +91,16 @@
             app:srcCompat="@drawable/ic_bookmark" />
 
         <RelativeLayout
+            android:id="@+id/mini_card_block"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
             android:paddingLeft="10dp"
             android:paddingTop="3dp"
             android:paddingRight="10dp"
-            android:paddingBottom="7dp">
+            android:paddingBottom="7dp"
+            android:visibility="invisible"
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/title_mini_card"
@@ -117,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/factory_mini_card"
                 android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal" >
 
                 <TextView
                     android:id="@+id/price_mini_card"
@@ -133,9 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sale_price_strike"
-                    android:textSize="13sp"
-                    android:visibility="gone"
-                    tools:visibility="visible" />
+                    android:textSize="13sp" />
             </LinearLayout>
 
             <TextView

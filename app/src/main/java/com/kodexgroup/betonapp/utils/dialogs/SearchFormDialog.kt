@@ -7,7 +7,10 @@ import android.os.Bundle
 import android.view.*
 import android.widget.LinearLayout
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.kodexgroup.betonapp.R
+import com.kodexgroup.betonapp.screens.home.HomeFragment
 import com.kodexgroup.betonapp.utils.views.DialogContentView
 import com.kodexgroup.betonapp.utils.views.MiniCardProductView
 import com.kodexgroup.betonapp.utils.views.SearchBlockView
@@ -28,6 +31,8 @@ class SearchFormDialog : DialogFragment() {
             savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.dialog_search, container, false)
+
+
 
         searchLock = root.findViewById(R.id.dialog_search_form)
         history = root.findViewById(R.id.history_search)
@@ -61,6 +66,14 @@ class SearchFormDialog : DialogFragment() {
         for (i in 1..2) {
             val card = MiniCardProductView(requireContext(), null)
 
+            card.setOnClickCardListener {
+                findNavController().popBackStack()
+                val home = parentFragment?.childFragmentManager?.fragments?.get(0) as HomeFragment
+
+                home.toProduct(it)
+
+            }
+
             card.layoutParams = param
             specialForYou.addView(card)
         }
@@ -81,9 +94,10 @@ class SearchFormDialog : DialogFragment() {
     }
 
     override fun onDismiss(dialog: DialogInterface) {
-        super.onDismiss(dialog)
         searchLock.clearFocusForm()
 
+
+        findNavController().popBackStack()
         listener?.let { it() }
     }
 

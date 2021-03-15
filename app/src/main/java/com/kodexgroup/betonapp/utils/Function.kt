@@ -85,3 +85,7 @@ inline fun <reified T : View> findParent(parent: ViewParent) : T? {
     }
     return isParent
 }
+
+fun NavController.isEmpty() : Boolean {
+    return previousBackStackEntry == null
+}

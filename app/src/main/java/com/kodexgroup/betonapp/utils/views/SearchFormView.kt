@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import androidx.fragment.app.FragmentManager
 import com.kodexgroup.betonapp.R
 import com.kodexgroup.betonapp.utils.dialogs.SearchFormDialog
+import com.kodexgroup.betonapp.utils.findParentNavController
 import com.kodexgroup.betonapp.utils.getFragmentManager
 
 
@@ -34,14 +35,15 @@ class SearchFormView(context: Context, attributeSet: AttributeSet) : LinearLayou
         searchLock.lock {
 
             searchLock.setFocus {
-                val dialog = SearchFormDialog()
-                fm?.let { dialog.show(it, "") }
 
-                dialog.setOnDismissListener {
-                    val animFadeIn = AnimationUtils.loadAnimation(context, R.anim.anim_fade_in)
-                    searchLock.startAnimation(animFadeIn)
+                findParentNavController().navigate(R.id.to_dialog)
+                findParentNavController().addOnDestinationChangedListener { _, destination, _ ->
+                    if (destination.id == R.id.homeFragment) {
+                        val animFadeIn = AnimationUtils.loadAnimation(context, R.anim.anim_fade_in)
+                        searchLock.startAnimation(animFadeIn)
 
-                    searchLock.clearFocusForm()
+                        searchLock.clearFocusForm()
+                    }
                 }
             }
 

@@ -1,4 +1,4 @@
-package com.kodexgroup.betonapp.utils.views
+ package com.kodexgroup.betonapp.utils.views
 
 import android.content.Context
 import android.graphics.PorterDuff
@@ -61,6 +61,19 @@ class RatingView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
             ratingCount.setTextSize(TypedValue.COMPLEX_UNIT_PX, value)
         }
 
+    var tintNull: Boolean = false
+        set(value) {
+            field = value
+
+            if (value) {
+                setTintNull(star1)
+                setTintNull(star2)
+                setTintNull(star3)
+                setTintNull(star4)
+                setTintNull(star5)
+            }
+        }
+
     var suffix: String = ""
         set(value) {
             field = value
@@ -87,6 +100,9 @@ class RatingView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
                         textSize = getDimensionPixelSize(R.styleable.RatingView_textSize, 37).toFloat()
                         sizeStar = getDimensionPixelSize(R.styleable.RatingView_size, 24)
                         suffix = getString(R.styleable.RatingView_suffix) ?: ""
+                        tintNull = getBoolean(R.styleable.RatingView_tintNull, false)
+                        setTextColor(getColor(R.styleable.RatingView_textColor, ContextCompat.getColor(context, R.color.hint)))
+                        ratingCount.visibility = if (getBoolean(R.styleable.RatingView_countRating, true)) VISIBLE else GONE
                     } finally { }
                 }
                 .recycle()
@@ -94,6 +110,10 @@ class RatingView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
 
     private fun setFull(image: ImageView) {
         image.setImageResource(R.drawable.ic_star_full)
+        setTintNull(image)
+    }
+
+    private fun setTintNull(image: ImageView) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             image.imageTintList = null
         } else {
@@ -109,7 +129,7 @@ class RatingView(context: Context, attrs: AttributeSet) : LinearLayout(context, 
     }
 
     fun setTextColor(color: Int) {
-        ratingCount.setTextColor(ContextCompat.getColor(context, color))
+        ratingCount.setTextColor(color)
     }
 
 }

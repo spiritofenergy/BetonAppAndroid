@@ -1,0 +1,102 @@
+package com.kodexgroup.betonapp.screens.factory
+
+import android.content.Context
+import android.view.View
+import android.view.ViewGroup
+import android.widget.*
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.kodexgroup.betonapp.R
+import com.kodexgroup.betonapp.database.server.ServerController
+import com.kodexgroup.betonapp.database.server.entities.Factory
+import com.kodexgroup.betonapp.screens.product.ProductViewModel
+import com.kodexgroup.betonapp.utils.views.MiniCardProductView
+import com.kodexgroup.betonapp.utils.views.RatingView
+import com.kodexgroup.betonapp.utils.views.ReviewBlockView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
+class FactoryFragmentController(fragment: Fragment, private val context: Context, view: View, factoryId: String) {
+
+    private val previewProduct: ImageView = view.findViewById(R.id.image_main_factory)
+    private val title: TextView = view.findViewById(R.id.title_factory)
+    private val type: TextView = view.findViewById(R.id.factory_type)
+    private val factoryAddressTxt: TextView = view.findViewById(R.id.factory_address)
+    private val secondAddress: TextView = view.findViewById(R.id.factory_address_second)
+    private val ratingView: RatingView = view.findViewById(R.id.rating_factory)
+    private val noteBtn: ImageButton = view.findViewById(R.id.add_favorite_factory)
+    private val favoriteCountTxt: TextView = view.findViewById(R.id.favorite_count_factory)
+
+    private val cardFirst: MiniCardProductView = view.findViewById(R.id.first_card)
+    private val cardSecond: MiniCardProductView = view.findViewById(R.id.second_card)
+
+    private val reviewBlock: ReviewBlockView = view.findViewById(R.id.review_factory)
+
+    private val openAllProducts: TextView = view.findViewById(R.id.open_all_products)
+    private val allProduct: View = view.findViewById(R.id.all_product)
+
+    private val viewModel: FactoryViewModel = ViewModelProvider(fragment).get(FactoryViewModel::class.java)
+
+    private var factory: Factory? = viewModel.factory
+
+    init {
+        println(viewModel.factory)
+        CoroutineScope(Dispatchers.IO).launch {
+            if (factory == null) getFactory(factoryId)
+            setFactory()
+        }
+    }
+
+    private suspend fun getFactory(id: String) {
+        val dao = ServerController().factoryDAO
+
+        val factories = dao.getFactory(id)
+        if (factories.isNotEmpty()) {
+            factory = factories.first()
+        }
+    }
+
+    private suspend fun setFactory() {
+        withContext(Dispatchers.Main) {
+
+            factory?.apply {
+                viewModel.factory = this
+                previewProduct.setImageResource(R.drawable.concrete)
+
+                title.text = factoryName
+                title.background = null
+                var param = title.layoutParams
+                param.width = ViewGroup.LayoutParams.WRAP_CONTENT
+
+                title.layoutParams = param
+
+                type.text = "Бетонный завод"
+                type.background = null
+                param = type.layoutParams
+                param.width = ViewGroup.LayoutParams.WRAP_CONTENT
+
+                type.layoutParams = param
+
+                factoryAddressTxt.text = factoryAddress
+                factoryAddressTxt.background = null
+                param = factoryAddressTxt.layoutParams
+                param.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                factoryAddressTxt.layoutParams = param
+
+                secondAddress.text = factoryAddress
+                secondAddress.background = null
+                param = secondAddress.layoutParams
+                param.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                secondAddress.layoutParams = param
+
+                ratingView.rating = factoryRate.toFloat()
+                favoriteCountTxt.text = favoriteCount.toString()
+
+                reviewBlock.addReviews(listOf(), factoryRate.toFloat())
+            }
+
+        }
+    }
+}

@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView
 import androidx.fragment.app.findFragment
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.navigation.findNavController
 import com.kodexgroup.betonapp.R
 import com.kodexgroup.betonapp.screens.productlist.ProductListFragment
 import com.kodexgroup.betonapp.utils.ProductType
@@ -98,7 +99,7 @@ class ButtonTypeView(context: Context, attributeSet: AttributeSet) : LinearLayou
         super.onAttachedToWindow()
 
         if (!isInEditMode) {
-            navController = findParentNavController()
+            navController = findNavController()
 
             try {
                 fragment = findFragment()
