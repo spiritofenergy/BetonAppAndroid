@@ -3,6 +3,7 @@ package com.kodexgroup.betonapp.screens.app.main
 import android.content.Context
 import android.view.View
 import android.widget.LinearLayout
+import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.kodexgroup.betonapp.R
@@ -19,6 +20,7 @@ import java.io.IOException
 class MainAppFragmentController(fragment: Fragment, private val context: Context, view: View) {
 
     private val factories: FactoryListView = view.findViewById(R.id.factories_main)
+    private val nested: NestedScrollView = view.findViewById(R.id.scroll_main)
 
     private val viewModel: MainAppViewModel = ViewModelProvider(fragment).get(MainAppViewModel::class.java)
 
@@ -34,6 +36,9 @@ class MainAppFragmentController(fragment: Fragment, private val context: Context
         CoroutineScope(Dispatchers.IO).launch {
             if (listFactory == null) load()
             setList()
+            withContext(Dispatchers.Main) {
+                restoreState()
+            }
         }
     }
 
@@ -63,5 +68,14 @@ class MainAppFragmentController(fragment: Fragment, private val context: Context
                 }
             }
         }
+    }
+
+    private fun restoreState() {
+        nested.scrollY = viewModel.state
+        viewModel.state = 0
+    }
+
+    fun saveState() {
+        viewModel.state = nested.scrollY
     }
 }

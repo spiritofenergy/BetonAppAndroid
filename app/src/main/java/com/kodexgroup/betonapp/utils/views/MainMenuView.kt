@@ -45,6 +45,11 @@ class MainMenuView(context: Context, attrs: AttributeSet) : LinearLayout(context
             args.putIntegerArrayList("filter", arrayListOf(FilterCode.NEW))
             navController?.navigate(R.id.to_product_list, args)
         }
+
+        favorite.setOnClickListener {
+            args.putBoolean("isChosen", true)
+            navController?.navigate(R.id.to_product_list, args)
+        }
     }
 
     override fun onAttachedToWindow() {

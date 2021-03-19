@@ -86,6 +86,27 @@ inline fun <reified T : View> findParent(parent: ViewParent) : T? {
     return isParent
 }
 
+inline fun <reified T : Fragment> findFragment(parent: Fragment) : T? {
+    var isParent = parent
+    while (isParent !is T) {
+        if (isParent.parentFragment == null) {
+            return null
+        }
+        isParent = isParent.requireParentFragment()
+    }
+    return isParent
+}
+
 fun NavController.isEmpty() : Boolean {
     return previousBackStackEntry == null
 }
+
+val Fragment.app: App
+    get() {
+        return (requireContext().applicationContext as App)
+    }
+
+val View.app: App
+    get() {
+        return context.applicationContext as App
+    }

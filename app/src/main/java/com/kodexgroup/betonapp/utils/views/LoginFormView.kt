@@ -10,6 +10,7 @@ import android.widget.ProgressBar
 import androidx.navigation.findNavController
 import com.kodexgroup.betonapp.R
 import com.kodexgroup.betonapp.database.server.ServerController
+import com.kodexgroup.betonapp.utils.app
 import com.kodexgroup.betonapp.utils.hideKeyword
 import com.kodexgroup.betonapp.utils.json.JSON
 import kotlinx.coroutines.CoroutineScope
@@ -91,7 +92,10 @@ class LoginFormView(context: Context, attrs: AttributeSet) : LinearLayout(contex
 
                 hideKeyword()
                 val navController = findNavController()
-                navController.navigate(R.id.to_home)
+                // TODO("OPEN PROFILE")
+
+                app.currentUser = serverController.userDAO.getUserByLogin(login.text)
+                println(app.currentUser)
             }
 
             if ((obj["code"] as Int == 204 && second)) {

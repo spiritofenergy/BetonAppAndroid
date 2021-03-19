@@ -10,10 +10,16 @@ import androidx.fragment.app.DialogFragment
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.kodexgroup.betonapp.R
+import com.kodexgroup.betonapp.database.server.ServerController
+import com.kodexgroup.betonapp.database.server.entities.Product
 import com.kodexgroup.betonapp.screens.home.HomeFragment
 import com.kodexgroup.betonapp.utils.views.DialogContentView
 import com.kodexgroup.betonapp.utils.views.MiniCardProductView
 import com.kodexgroup.betonapp.utils.views.SearchBlockView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class SearchFormDialog : DialogFragment() {
@@ -22,6 +28,8 @@ class SearchFormDialog : DialogFragment() {
     private lateinit var history: DialogContentView
     private lateinit var specialForYou: LinearLayout
     private lateinit var popular: DialogContentView
+
+    private var products: List<Product?>? = null
 
     private var listener: (() -> Unit)? = null
 
@@ -52,31 +60,12 @@ class SearchFormDialog : DialogFragment() {
             println("Reload")
         }
 
-        return root
-    }
-
-    override fun onResume() {
-        super.onResume()
-        val param = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                1.0f
-        )
-
-        for (i in 1..2) {
-            val card = MiniCardProductView(requireContext(), null)
-
-            card.setOnClickCardListener {
-                findNavController().popBackStack()
-                val home = parentFragment?.childFragmentManager?.fragments?.get(0) as HomeFragment
-
-                home.toProduct(it)
-
-            }
-
-            card.layoutParams = param
-            specialForYou.addView(card)
+        CoroutineScope(Dispatchers.IO).launch {
+            getProducts()
+            setProd()
         }
+
+        return root
     }
 
     override fun onStart() {
@@ -105,4 +94,51 @@ class SearchFormDialog : DialogFragment() {
         searchLock.isFocus = true
     }
 
+    private suspend fun getProducts() {
+        val dao = ServerController().productDAO
+
+        val productsArr = dao.getProducts()
+        if (productsArr.isNotEmpty()) {
+
+            products = productsArr
+        }
+    }
+
+    private suspend fun setProd() {
+        withContext(Dispatchers.Main) {
+            val param = LinearLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    1.0f
+            )
+
+            val prod = mutableListOf<Product?>()
+
+            if (products == null) {
+
+                specialForYou.visibility = View.GONE
+            } else {
+                specialForYou.visibility = View.VISIBLE
+
+                prod.add(products!!.last())
+                prod.add(products!!.elementAtOrNull(products!!.lastIndex - 1))
+            }
+
+            for (p in prod) {
+                val card = MiniCardProductView(requireContext(), null)
+
+                card.setOnClickCardListener {
+                    findNavController().popBackStack()
+                    val home = parentFragment?.childFragmentManager?.fragments?.get(0) as HomeFragment
+
+                    home.toProduct(it)
+
+                }
+                card.addProduct(p)
+
+                card.layoutParams = param
+                specialForYou.addView(card)
+            }
+        }
+    }
 }

@@ -74,6 +74,7 @@
             android:padding="6dp"
             android:scaleType="fitCenter"
             android:tint="@color/white"
+            android:visibility="gone"
             app:srcCompat="@drawable/ic_bookmark" />
 
         <androidx.constraintlayout.widget.ConstraintLayout

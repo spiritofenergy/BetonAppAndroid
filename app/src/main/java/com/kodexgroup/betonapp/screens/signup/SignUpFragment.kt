@@ -20,13 +20,6 @@ class SignUpFragment : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_sign_up, container, false)
 
-        val navController = findNavController()
-        val toolbar = root.findViewById<Toolbar>(R.id.toolbar_sign_up)
-
-        toolbar.setNavigationOnClickListener {
-            navController.popBackStack()
-        }
-
         return root
     }
 

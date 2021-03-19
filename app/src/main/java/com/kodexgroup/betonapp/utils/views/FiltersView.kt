@@ -27,6 +27,7 @@ class FiltersView(context: Context, attrs: AttributeSet) : LinearLayout(context,
     private var fm: FragmentManager? = null
     private var fragment: ProductListFragment? = null
 
+    private var factory: String? = null
     private var filters: ArrayList<Int> = arrayListOf()
 
     private val onDismiss: (ArrayList<Int>) -> Unit = {
@@ -99,6 +100,7 @@ class FiltersView(context: Context, attrs: AttributeSet) : LinearLayout(context,
             } catch (e: ClassCastException) { }
 
             filters = fragment?.arguments?.getIntegerArrayList("filter") ?: arrayListOf()
+            factory = fragment?.arguments?.getString("factory")
 
             reloadButtons()
 
@@ -129,8 +131,22 @@ class FiltersView(context: Context, attrs: AttributeSet) : LinearLayout(context,
         reload()
     }
 
+    private fun addFactory(tag: String) {
+        val button = ButtonFilterView(context, null).apply {
+            factory = tag
+            isInFilterView = true
+        }
+        button.tag = tag
+        filterList.addView(button)
+        reload()
+    }
+
     private fun reloadButtons() {
         filterList.removeAllViews()
+        if (factory != null) {
+            addFactory(factory!!)
+        }
+
         for (filter in filters) {
 
             when (filter) {

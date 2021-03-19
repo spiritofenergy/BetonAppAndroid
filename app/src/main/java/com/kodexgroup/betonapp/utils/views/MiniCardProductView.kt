@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -15,11 +16,13 @@ import androidx.navigation.findNavController
 import com.kodexgroup.betonapp.R
 import com.kodexgroup.betonapp.database.server.ServerController
 import com.kodexgroup.betonapp.database.server.entities.Product
+import com.kodexgroup.betonapp.utils.app
 import com.kodexgroup.betonapp.utils.findParentNavController
 import com.kodexgroup.betonapp.utils.getImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MiniCardProductView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
@@ -27,6 +30,7 @@ class MiniCardProductView(context: Context, attrs: AttributeSet?) : LinearLayout
     private val title: TextView
     private val factoryName: TextView
     private val saleBlock: View
+    private val favorite: ImageButton
     private val sale: TextView
     private val percent: TextView
     private val countBuy: TextView
@@ -53,6 +57,7 @@ class MiniCardProductView(context: Context, attrs: AttributeSet?) : LinearLayout
     private val card: CardView
 
     private var product: Product? = null
+    private var listFavorites: MutableList<String>? = null
 
     init {
         val inflater = context
@@ -65,6 +70,7 @@ class MiniCardProductView(context: Context, attrs: AttributeSet?) : LinearLayout
         title = root.findViewById(R.id.title_mini_card)
         factoryName = root.findViewById(R.id.factory_mini_card)
         saleBlock = root.findViewById(R.id.sale_block)
+        favorite = root.findViewById(R.id.add_favorite_product_mini_card)
         sale = root.findViewById(R.id.sale_mini_card)
         percent = root.findViewById(R.id.textView10)
         countBuy = root.findViewById(R.id.count_buy_mini_card)
@@ -72,11 +78,33 @@ class MiniCardProductView(context: Context, attrs: AttributeSet?) : LinearLayout
         priceStrike = root.findViewById(R.id.price_throwline_mini_card)
         block = root.findViewById(R.id.mini_card_block)
 
+        val favorites = app.currentUser?.favorites
+        val products = favorites?.get("products").toString()
+        listFavorites = products.split(",").toMutableList()
+
         card.setOnClickListener {
             val args = Bundle()
             args.putString("productId", product?.productId)
 
             findNavController().navigate(R.id.to_product, args)
+        }
+
+        favorite.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                listFavorites?.remove("")
+                listFavorites?.add(product?.productId.toString())
+
+                favorites?.put("products", listFavorites?.joinToString(","))
+
+                val dao = ServerController().userDAO
+                dao.modifyFavorite(app.currentUser!!.id, favorites!!)
+                ServerController().productDAO.modify(product?.productId.toString(), product!!.favoriteCount + 1)
+                app.currentUser!!.favorites = favorites
+
+                withContext(Dispatchers.Main) {
+                    favorite.visibility = View.GONE
+                }
+            }
         }
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -111,6 +139,10 @@ class MiniCardProductView(context: Context, attrs: AttributeSet?) : LinearLayout
             saleBlock.visibility = VISIBLE
             block.visibility = VISIBLE
             mainImage.visibility = VISIBLE
+
+            if (app.currentUser != null && listFavorites?.contains(product.productId) == false) {
+                favorite.visibility = View.VISIBLE
+            }
         } else {
             card.visibility = INVISIBLE
         }
@@ -126,7 +158,7 @@ class MiniCardProductView(context: Context, attrs: AttributeSet?) : LinearLayout
         CoroutineScope(Dispatchers.Main).launch {
             val dao = ServerController().factoryDAO
 
-            val factory = dao.getFactory(id = id)
+            val factory = dao.getFactory(id = listOf(id))
             factoryName.text = if (factory.isNotEmpty()) {
                 factory.first().factoryName
             } else {

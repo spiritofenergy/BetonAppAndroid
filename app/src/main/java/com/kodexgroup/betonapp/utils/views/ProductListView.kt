@@ -29,11 +29,9 @@ import java.util.*
 
 class ProductListView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-    private val listProduct: RecyclerView
+    val listProduct: RecyclerView
     private val loaded: ProgressBar
     val emptyView: EmptyView
-
-    private val adapter =  ProductListAdapter()
 
     var isEmpty: Boolean = false
         set(value) {
@@ -50,7 +48,7 @@ class ProductListView(context: Context, attrs: AttributeSet) : LinearLayout(cont
             }
         }
 
-    var isLoad: Boolean = true
+    var isLoad: Boolean = false
         set(value) {
             field = value
 
@@ -72,31 +70,22 @@ class ProductListView(context: Context, attrs: AttributeSet) : LinearLayout(cont
         loaded = root.findViewById(R.id.loaded_product_list)
         emptyView = root.findViewById(R.id.empty_product_list)
 
-        listProduct.layoutManager = LinearLayoutManager(context)
 
-        listProduct.adapter = adapter
-    }
-
-    fun showList(list: List<Product>) {
-        val newList = mutableListOf<Pair<Product, Product?>>()
-
-        val iterator = list.iterator()
-        iterator.forEach { product ->
-            val next = if (iterator.hasNext()) iterator.next() else null
-            val pair = Pair(product, next)
-
-            newList.add(pair)
-        }
-        println(newList)
-        adapter.reload(newList)
-
-        isLoad = false
+        println("Create")
 
     }
 
     fun emptyInternetLost() {
         emptyView.title = "Отсутствует подключение к интернету."
         emptyView.subText = "Проверьте ваше подключение или обновите список."
+
+        isEmpty = true
+    }
+
+    fun userNone() {
+        emptyView.title = "Отсутствует аккаунт."
+        emptyView.subText = "Перейдите на вкладку Профиль и войдите в аккаунт."
+        emptyView.actionTitle = "Профиль"
 
         isEmpty = true
     }

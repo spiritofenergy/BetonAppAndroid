@@ -1,14 +1,17 @@
 package com.kodexgroup.betonapp.screens.factory
 
 import android.content.Context
+import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.kodexgroup.betonapp.R
 import com.kodexgroup.betonapp.database.server.ServerController
 import com.kodexgroup.betonapp.database.server.entities.Factory
+import com.kodexgroup.betonapp.database.server.entities.Product
 import com.kodexgroup.betonapp.screens.product.ProductViewModel
 import com.kodexgroup.betonapp.utils.views.MiniCardProductView
 import com.kodexgroup.betonapp.utils.views.RatingView
@@ -34,17 +37,27 @@ class FactoryFragmentController(fragment: Fragment, private val context: Context
 
     private val reviewBlock: ReviewBlockView = view.findViewById(R.id.review_factory)
 
+    private val emptyProducts: TextView = view.findViewById(R.id.empty_products)
     private val openAllProducts: TextView = view.findViewById(R.id.open_all_products)
     private val allProduct: View = view.findViewById(R.id.all_product)
 
     private val viewModel: FactoryViewModel = ViewModelProvider(fragment).get(FactoryViewModel::class.java)
 
     private var factory: Factory? = viewModel.factory
+    private var products: List<Product?>? = viewModel.products
 
     init {
-        println(viewModel.factory)
+        openAllProducts.setOnClickListener {
+            val args = Bundle()
+            args.putString("factoryId", factoryId)
+            args.putString("factory", factory?.factoryName)
+
+            fragment.findNavController().navigate(R.id.to_product_list, args)
+        }
+
         CoroutineScope(Dispatchers.IO).launch {
             if (factory == null) getFactory(factoryId)
+            if (products == null) getProducts(factoryId)
             setFactory()
         }
     }
@@ -52,9 +65,19 @@ class FactoryFragmentController(fragment: Fragment, private val context: Context
     private suspend fun getFactory(id: String) {
         val dao = ServerController().factoryDAO
 
-        val factories = dao.getFactory(id)
+        val factories = dao.getFactory(id = listOf(id))
         if (factories.isNotEmpty()) {
             factory = factories.first()
+        }
+    }
+
+    private suspend fun getProducts(id: String) {
+        val dao = ServerController().productDAO
+
+        val productsArr = dao.getProducts(factory = listOf(id))
+        if (productsArr.isNotEmpty()) {
+
+            products = productsArr
         }
     }
 
@@ -95,6 +118,28 @@ class FactoryFragmentController(fragment: Fragment, private val context: Context
                 favoriteCountTxt.text = favoriteCount.toString()
 
                 reviewBlock.addReviews(listOf(), factoryRate.toFloat())
+
+                println(products)
+
+                if (products == null) {
+
+                    allProduct.visibility = View.GONE
+                    openAllProducts.visibility = View.GONE
+
+                    emptyProducts.visibility = View.VISIBLE
+                } else {
+                    val prod = mutableListOf<Product?>()
+
+                    prod.add(products!!.last())
+                    prod.add(products!!.elementAtOrNull(products!!.lastIndex - 1))
+
+                    cardFirst.addProduct(prod[0])
+                    cardSecond.addProduct(prod[1])
+
+                    if (products!!.size > 2) {
+                        openAllProducts.visibility = View.VISIBLE
+                    }
+                }
             }
 
         }

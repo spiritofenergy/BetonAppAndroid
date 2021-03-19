@@ -21,8 +21,8 @@ import java.io.IOException
 
 class FactoryListView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-    val listFactory: RecyclerView
-    val loaded: ProgressBar
+    private val listFactory: RecyclerView
+    private val loaded: ProgressBar
     val emptyView: EmptyView
 
     private val adapter =  FactoryListAdapter(context)
@@ -33,7 +33,7 @@ class FactoryListView(context: Context, attrs: AttributeSet) : LinearLayout(cont
 
             if (value) {
                 loaded.visibility = GONE
-                listFactory.visibility = GONE
+                listFactory.visibility = INVISIBLE
                 emptyView.visibility = VISIBLE
             } else {
                 loaded.visibility = GONE
@@ -49,7 +49,7 @@ class FactoryListView(context: Context, attrs: AttributeSet) : LinearLayout(cont
             if (value) {
                 emptyView.visibility = GONE
                 loaded.visibility = VISIBLE
-                listFactory.visibility = GONE
+                listFactory.visibility = INVISIBLE
             } else {
                 loaded.visibility = GONE
                 listFactory.visibility = VISIBLE
@@ -75,6 +75,14 @@ class FactoryListView(context: Context, attrs: AttributeSet) : LinearLayout(cont
 
         isEmpty = true
 
+    }
+
+    fun userNone() {
+        emptyView.title = "Отсутствует аккаунт."
+        emptyView.subText = "Перейдите на вкладку Профиль и войдите в аккаунт."
+        emptyView.actionTitle = "Профиль"
+
+        isEmpty = true
     }
 
     fun showList(list: List<Factory>) {

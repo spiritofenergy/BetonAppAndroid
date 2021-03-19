@@ -43,7 +43,9 @@ android {
 
 dependencies {
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
-    implementation 'androidx.slidingpanelayout:slidingpanelayout:1.0.0'
+    implementation 'androidx.slidingpanelayout:slidingpanelayout:1.1.0'
+    implementation "androidx.recyclerview:recyclerview:1.2.0-beta02"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0"
     def lifecycle_version = "2.2.0"
     def roomVersion = "2.2.6"
 

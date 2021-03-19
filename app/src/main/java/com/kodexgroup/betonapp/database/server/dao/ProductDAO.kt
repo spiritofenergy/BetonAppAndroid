@@ -44,4 +44,22 @@ class ProductDAO() {
         return xmlParser.getObjectFromParser(parser, Product.START_TAG)
     }
 
+    suspend fun modify(id: String, favorite: Int) : String {
+
+        val requestBody = MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("id", id)
+                .addFormDataPart("favorite", favorite.toString())
+                .build()
+
+
+        val request = Request.Builder()
+                .url("https://api.seostor.ru/beton/test/products/modify.php")
+                .post(requestBody)
+                .build()
+
+        return networkController.execute(request)
+
+    }
+
 }

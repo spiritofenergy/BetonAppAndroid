@@ -2,6 +2,7 @@ package com.kodexgroup.betonapp.network
 
 import okhttp3.*
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
@@ -12,6 +13,7 @@ class NetworkController {
 
     suspend fun execute(request: Request) : String {
         return suspendCoroutine { continuation ->
+
             client.newCall(request).enqueue(object : Callback {
                 override fun onFailure(call: Call, e: IOException) {
                     continuation.resumeWithException(e)
@@ -19,10 +21,10 @@ class NetworkController {
 
                 override fun onResponse(call: Call, response: Response) {
                     response.use {
-                        if (!response.isSuccessful)
+                        if (!it.isSuccessful)
                             continuation.resumeWithException(IOException("Unexpected code $response"))
 
-                        continuation.resume(response.body!!.string())
+                        continuation.resume(it.body!!.string())
                     }
                 }
             })

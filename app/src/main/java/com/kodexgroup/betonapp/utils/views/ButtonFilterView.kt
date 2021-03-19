@@ -50,6 +50,8 @@ class ButtonFilterView(context: Context, attrs: AttributeSet?) : LinearLayout(co
             isActive = false
             button.setBackgroundResource(R.drawable.ic_filter_border_factory)
             button.setTextColor(ContextCompat.getColor(context, R.color.blue_500))
+
+            text = value ?: "Button"
         }
 
     var rating: Float = 0f
@@ -111,12 +113,14 @@ class ButtonFilterView(context: Context, attrs: AttributeSet?) : LinearLayout(co
 
     private fun onClick() {
         button.setOnClickListener {
-            isActive = !isActive
+            if (factory == null) {
+                isActive = !isActive
 
-            listener?.invoke()
+                listener?.invoke()
 
-            if (isInFilterView) {
-                findParent<FiltersView>(parent)?.deleteBtn(this)
+                if (isInFilterView) {
+                    findParent<FiltersView>(parent)?.deleteBtn(this)
+                }
             }
         }
 

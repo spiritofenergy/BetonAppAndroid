@@ -52,7 +52,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupBottomNavigationBar() {
-        val navGraphIds = listOf(R.navigation.home_graph, R.navigation.map_graph)
+        val navGraphIds = listOf(R.navigation.home_graph, R.navigation.map_graph, R.navigation.profile_graph)
 
         // Setup the bottom navigation view with a list of navigation graphs
         val controller = bottomNavigationView.setupWithNavController(
@@ -68,6 +68,7 @@ class HomeFragment : Fragment() {
             println("HELLO" + it.currentDestination?.label)
 
             it.addOnDestinationChangedListener { controller, _, _ ->
+                println("HELLO" + it.currentDestination?.label)
                 toolbar.setNavigationOnClickListener {
                     controller.popBackStack()
                 }
@@ -95,5 +96,9 @@ class HomeFragment : Fragment() {
         args.putString("productId", id)
 
         currentController.value?.navigate(R.id.to_product, args)
+    }
+
+    fun toProfile() {
+        bottomNavigationView.selectedItemId = R.id.profile_app_fragment
     }
 }

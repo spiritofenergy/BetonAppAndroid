@@ -11,16 +11,16 @@ class FactoryDAO {
 
     private val networkController = NetworkController()
 
-    suspend fun getFactory(id: String? = null, user: String? = null) : List<Factory> {
+    suspend fun getFactory(id: List<String>? = null, user: String? = null) : List<Factory> {
         val bodyBuilder = MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
         val request = Request.Builder()
                 .url("https://api.seostor.ru/beton/test/factories/get.php")
 
-        if (id != null || user != null) {
+        if (id != null  && id.isNotEmpty() || user != null) {
             bodyBuilder.apply {
-                if (id != null) {
-                    addFormDataPart("factory", id)
+                if (id != null && id.isNotEmpty()) {
+                    addFormDataPart("factory", id.joinToString(" "))
                 }
                 if (user != null) {
                     addFormDataPart("user", user)

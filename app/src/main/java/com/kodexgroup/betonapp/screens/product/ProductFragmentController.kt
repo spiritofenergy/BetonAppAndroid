@@ -13,6 +13,7 @@ import com.kodexgroup.betonapp.R
 import com.kodexgroup.betonapp.database.server.ServerController
 import com.kodexgroup.betonapp.database.server.entities.Factory
 import com.kodexgroup.betonapp.database.server.entities.Product
+import com.kodexgroup.betonapp.utils.app
 import com.kodexgroup.betonapp.utils.views.MiniCardProductView
 import com.kodexgroup.betonapp.utils.views.RatingView
 import com.kodexgroup.betonapp.utils.views.ReviewBlockView
@@ -48,6 +49,7 @@ class ProductFragmentController(private val fragment: Fragment, private val cont
 
     private var product: Product? = viewModel.product
     private var factory: Factory? = viewModel.factory
+    private var isFavorite = false
 
     init {
         println(product)
@@ -87,6 +89,60 @@ class ProductFragmentController(private val fragment: Fragment, private val cont
 
                 ratingView.rating = productRate.toFloat()
                 favoriteCountTxt.text = favoriteCount.toString()
+
+                val favorites = fragment.app.currentUser?.favorites
+                val products = favorites?.get("products") as String
+                val listFavorites = products.split(",").toMutableList()
+
+                if (productId in listFavorites) {
+                    isFavorite = true
+                    noteBtn.setImageResource(R.drawable.ic_bookmark)
+                }
+
+                noteBtn.setOnClickListener {
+                    if (!isFavorite) {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            listFavorites.remove("")
+                            listFavorites.add(productId)
+
+                            favorites.put("products", listFavorites.joinToString(","))
+
+                            val dao = ServerController().userDAO
+                            dao.modifyFavorite(fragment.app.currentUser!!.id, favorites)
+                            ServerController().productDAO.modify(productId, favoriteCount + 1)
+                            fragment.app.currentUser!!.favorites = favorites
+
+                            favoriteCount += 1
+                            withContext(Dispatchers.Main) {
+                                favoriteCountTxt.text = favoriteCount.toString()
+                                noteBtn.setImageResource(R.drawable.ic_bookmark)
+                            }
+                        }
+
+                    } else {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            listFavorites.remove("")
+                            listFavorites.remove(productId)
+
+                            favorites.put("products", listFavorites.joinToString(","))
+
+                            val dao = ServerController().userDAO
+                            dao.modifyFavorite(fragment.app.currentUser!!.id, favorites)
+                            ServerController().productDAO.modify(productId, favoriteCount - 1)
+                            fragment.app.currentUser!!.favorites = favorites
+
+                            favoriteCount -= 1
+                            withContext(Dispatchers.Main) {
+                                favoriteCountTxt.text = favoriteCount.toString()
+                                noteBtn.setImageResource(R.drawable.ic_bookmark_empty)
+                            }
+                        }
+
+                    }
+
+                    isFavorite = !isFavorite
+                }
+
                 description.text = productDescription
                 description.background = null
 
@@ -116,7 +172,7 @@ class ProductFragmentController(private val fragment: Fragment, private val cont
         if (factory == null) {
             val dao = ServerController().factoryDAO
 
-            val factories = dao.getFactory(id = id)
+            val factories = dao.getFactory(id = listOf(id))
             if (factories.isNotEmpty()) {
                 factory = factories.first()
             }

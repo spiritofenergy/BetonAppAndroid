@@ -10,12 +10,20 @@ import com.kodexgroup.betonapp.R
 
 class MainAppFragment : Fragment() {
 
+    private var controller: MainAppFragmentController? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val root = inflater.inflate(R.layout.content_home, container, false)
 
-        MainAppFragmentController(this, requireContext(), root)
+        controller = MainAppFragmentController(this, requireContext(), root)
 
         return root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+
+        controller?.saveState()
     }
 
 }

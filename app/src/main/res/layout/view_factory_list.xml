@@ -7,6 +7,7 @@
     android:layout_height="match_parent">
 
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_factory"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -25,7 +26,7 @@
             android:layout_marginRight="5dp"
             android:gravity="center"
             android:nestedScrollingEnabled="false"
-            android:visibility="gone"
+            android:visibility="invisible"
             tools:listitem="@layout/view_factory_card"
             tools:visibility="visible" />
 

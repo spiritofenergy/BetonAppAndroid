@@ -16,6 +16,7 @@ import com.kodexgroup.betonapp.utils.json.JSON
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SignUpFormView(context: Context, attributeSet: AttributeSet) : LinearLayout(context, attributeSet) {
 
@@ -181,7 +182,9 @@ class SignUpFormView(context: Context, attributeSet: AttributeSet) : LinearLayou
             val obj = JSON.Response(res)
 
             if (obj["code"] as Int == 400) {
-                password.isError("Неверный логин или пароль.")
+                withContext(Dispatchers.Main) {
+                    password.isError("Неверный логин или пароль.")
+                }
             }
 
             if (obj["code"] as Int == 204 && !second) {
@@ -189,17 +192,21 @@ class SignUpFormView(context: Context, attributeSet: AttributeSet) : LinearLayou
             }
 
             if (obj["code"] as Int == 200) {
-                hideKeyword()
-                val navController = findNavController()
-                navController.navigate(R.id.to_home_new)
+                withContext(Dispatchers.Main) {
+                    hideKeyword()
+                    val navController = findNavController()
+                }
             }
 
             if ((obj["code"] as Int == 204 && second)) {
-                login.isError = false
-                password.isError("Произошла ошибка.")
+                withContext(Dispatchers.Main) {
+                    login.isError = false
+                    password.isError("Произошла ошибка.")
+                }
             }
-
-            progressBar.visibility = View.INVISIBLE
+            withContext(Dispatchers.Main) {
+                progressBar.visibility = View.INVISIBLE
+            }
         }
     }
 
