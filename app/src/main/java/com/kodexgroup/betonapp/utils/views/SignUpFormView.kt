@@ -195,6 +195,8 @@ class SignUpFormView(context: Context, attributeSet: AttributeSet) : LinearLayou
                 withContext(Dispatchers.Main) {
                     hideKeyword()
                     val navController = findNavController()
+
+                    navController.navigate(R.id.is_signed)
                 }
             }
 

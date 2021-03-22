@@ -50,7 +50,7 @@ class MainAppFragmentController(fragment: Fragment, private val context: Context
             val list = factoryDAO.getFactory()
 
             listFactory = list
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             factories.emptyInternetLost()
         }
 

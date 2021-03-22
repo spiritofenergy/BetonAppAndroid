@@ -1,6 +1,7 @@
 package com.kodexgroup.betonapp.utils.views
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,7 @@ class LoginFormView(context: Context, attrs: AttributeSet) : LinearLayout(contex
     private val signUpBtn: Button
 
     private lateinit var serverController: ServerController
+    private var userSharedPref: SharedPreferences? = null
 
     init {
         val inflater = context
@@ -35,6 +37,9 @@ class LoginFormView(context: Context, attrs: AttributeSet) : LinearLayout(contex
 
         if (!isInEditMode) {
             serverController = ServerController()
+
+            userSharedPref = context.getSharedPreferences(
+                    "user", Context.MODE_PRIVATE)
         }
 
         login = root.findViewById(R.id.name_user_txt)
@@ -92,10 +97,17 @@ class LoginFormView(context: Context, attrs: AttributeSet) : LinearLayout(contex
 
                 hideKeyword()
                 val navController = findNavController()
-                // TODO("OPEN PROFILE")
+
+                with (userSharedPref?.edit()) {
+                    this?.putString("user_login", login.text)
+
+                    this?.apply()
+                }
 
                 app.currentUser = serverController.userDAO.getUserByLogin(login.text)
                 println(app.currentUser)
+
+                navController.navigate(R.id.is_signed)
             }
 
             if ((obj["code"] as Int == 204 && second)) {

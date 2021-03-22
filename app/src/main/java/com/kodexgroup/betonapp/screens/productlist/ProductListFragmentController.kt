@@ -49,11 +49,20 @@ class ProductListFragmentController(private val fragment: Fragment, context: Con
     private var listProduct: List<Product>? = viewModel.products
     private var listFactory: List<Factory>? = viewModel.factories
     private var listFavorites: MutableList<String>? = null
+    private var listFavoritesFactory: MutableList<String>? = null
 
     init {
-        val favorites = fragment.app.currentUser?.favorites
-        val productsList = favorites?.get("products").toString()
-        listFavorites = productsList.split(",").toMutableList()
+        if (isChosen) {
+            val favorites = fragment.app.currentUser?.favorites
+
+            val productsList = favorites?.get("products").toString()
+            listFavorites = productsList.split(",").toMutableList()
+            listFavorites?.remove("")
+
+            val factoryList = favorites?.get("factories").toString()
+            listFavoritesFactory = factoryList.split(",").toMutableList()
+            listFavoritesFactory?.remove("")
+        }
 
         products.emptyView.setOnActionListener {
             CoroutineScope(Dispatchers.IO).launch {
@@ -108,9 +117,6 @@ class ProductListFragmentController(private val fragment: Fragment, context: Con
         val types = fragment.arguments?.getIntegerArrayList("type")
         val factory = fragment.arguments?.getString("factoryId")
         var factoryList: List<String>? = null
-        listFavorites?.remove("")
-
-        println(listFavorites)
 
         if (isChosen && fragment.app.currentUser == null) {
             withContext(Dispatchers.Main) {
@@ -119,6 +125,19 @@ class ProductListFragmentController(private val fragment: Fragment, context: Con
                 products.emptyView.setOnActionListener {
                     val home = findFragment<HomeFragment>(fragment)
                     home?.toProfile()
+                }
+            }
+
+            return
+        }
+
+        if (isChosen && listFavorites.isNullOrEmpty()) {
+            withContext(Dispatchers.Main) {
+                products.isEmpty = true
+                products.emptyView.setOnActionListener {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        reloadList()
+                    }
                 }
             }
 
@@ -138,7 +157,7 @@ class ProductListFragmentController(private val fragment: Fragment, context: Con
             val list = productDAO.getProducts(id = listFavorites, type = types, factory = factoryList)
 
             listProduct = filtersList(list)
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             withContext(Dispatchers.Main) {
                 products.emptyInternetLost()
             }
@@ -215,12 +234,25 @@ class ProductListFragmentController(private val fragment: Fragment, context: Con
             return
         }
 
+        if (isChosen && listFavoritesFactory.isNullOrEmpty()) {
+            withContext(Dispatchers.Main) {
+                factories.isEmpty = true
+                factories.emptyView.setOnActionListener {
+                    CoroutineScope(Dispatchers.IO).launch {
+                        reloadListFactory()
+                    }
+                }
+            }
+
+            return
+        }
+
         try {
             val factoryDAO = ServerController().factoryDAO
-            val list = factoryDAO.getFactory()
+            val list = factoryDAO.getFactory(id = listFavoritesFactory)
 
             listFactory = list
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             factories.emptyInternetLost()
         }
 

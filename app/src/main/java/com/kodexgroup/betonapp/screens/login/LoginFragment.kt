@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.kodexgroup.betonapp.R
+import com.kodexgroup.betonapp.utils.app
 import com.kodexgroup.betonapp.utils.views.EditTextHintView
 import com.kodexgroup.betonapp.utils.views.LoginFormView
 
@@ -19,6 +21,10 @@ class LoginFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        if (app.currentUser != null) {
+            findNavController().navigate(R.id.is_signed)
+        }
+
         val root = inflater.inflate(R.layout.fragment_login, container, false)
         loginForm = root.findViewById(R.id.login_form)
 

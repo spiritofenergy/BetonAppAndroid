@@ -17,3 +17,5 @@ object ProductType {
     const val PRIMING = 2
     const val SOLUTION = 3
 }
+
+val UserRole = listOf<String>("Покупатель")

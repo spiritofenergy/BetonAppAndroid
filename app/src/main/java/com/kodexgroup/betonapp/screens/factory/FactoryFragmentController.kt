@@ -13,6 +13,7 @@ import com.kodexgroup.betonapp.database.server.ServerController
 import com.kodexgroup.betonapp.database.server.entities.Factory
 import com.kodexgroup.betonapp.database.server.entities.Product
 import com.kodexgroup.betonapp.screens.product.ProductViewModel
+import com.kodexgroup.betonapp.utils.app
 import com.kodexgroup.betonapp.utils.views.MiniCardProductView
 import com.kodexgroup.betonapp.utils.views.RatingView
 import com.kodexgroup.betonapp.utils.views.ReviewBlockView
@@ -21,7 +22,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-class FactoryFragmentController(fragment: Fragment, private val context: Context, view: View, factoryId: String) {
+class FactoryFragmentController(private val fragment: Fragment, private val context: Context, view: View, factoryId: String) {
 
     private val previewProduct: ImageView = view.findViewById(R.id.image_main_factory)
     private val title: TextView = view.findViewById(R.id.title_factory)
@@ -45,6 +46,7 @@ class FactoryFragmentController(fragment: Fragment, private val context: Context
 
     private var factory: Factory? = viewModel.factory
     private var products: List<Product?>? = viewModel.products
+    private var isFavorite = false
 
     init {
         openAllProducts.setOnClickListener {
@@ -116,6 +118,61 @@ class FactoryFragmentController(fragment: Fragment, private val context: Context
 
                 ratingView.rating = factoryRate.toFloat()
                 favoriteCountTxt.text = favoriteCount.toString()
+
+                val favorites = fragment.app.currentUser?.favorites
+                val factoriesList = favorites?.get("factories") as String
+                val listFavorites = factoriesList.split(",").toMutableList()
+
+                if (factoryId in listFavorites) {
+                    isFavorite = true
+                    noteBtn.setImageResource(R.drawable.ic_bookmark)
+                }
+
+
+                noteBtn.setOnClickListener {
+                    if (!isFavorite) {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            listFavorites.remove("")
+                            listFavorites.add(factoryId)
+
+                            favorites.put("factories", listFavorites.joinToString(","))
+
+                            val dao = ServerController().userDAO
+                            dao.modifyFavorite(fragment.app.currentUser!!.id, favorites)
+                            ServerController().factoryDAO.modify(factoryId, favoriteCount + 1)
+                            fragment.app.currentUser!!.favorites = favorites
+
+                            favoriteCount += 1
+                            withContext(Dispatchers.Main) {
+                                favoriteCountTxt.text = favoriteCount.toString()
+                                noteBtn.setImageResource(R.drawable.ic_bookmark)
+                            }
+                        }
+
+                    } else {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            listFavorites.remove("")
+                            listFavorites.remove(factoryId)
+
+                            favorites.put("factories", listFavorites.joinToString(","))
+
+                            val dao = ServerController().userDAO
+                            dao.modifyFavorite(fragment.app.currentUser!!.id, favorites)
+                            ServerController().factoryDAO.modify(factoryId, favoriteCount - 1)
+                            fragment.app.currentUser!!.favorites = favorites
+
+                            favoriteCount -= 1
+                            withContext(Dispatchers.Main) {
+                                favoriteCountTxt.text = favoriteCount.toString()
+                                noteBtn.setImageResource(R.drawable.ic_bookmark_empty)
+                            }
+                        }
+
+                    }
+
+                    isFavorite = !isFavorite
+                }
+
 
                 reviewBlock.addReviews(listOf(), factoryRate.toFloat())
 

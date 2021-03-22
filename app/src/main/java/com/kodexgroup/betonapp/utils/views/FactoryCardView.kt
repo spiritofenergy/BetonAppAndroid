@@ -12,12 +12,15 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.navigation.findNavController
 import com.kodexgroup.betonapp.R
+import com.kodexgroup.betonapp.database.server.ServerController
 import com.kodexgroup.betonapp.database.server.entities.Factory
+import com.kodexgroup.betonapp.utils.app
 import com.kodexgroup.betonapp.utils.findParentNavController
 import com.kodexgroup.betonapp.utils.getImage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FactoryCardView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
@@ -51,7 +54,7 @@ class FactoryCardView(context: Context, attrs: AttributeSet?) : LinearLayout(con
         }
 
     private var factory: Factory? = null
-
+    private var listFavorites: MutableList<String>? = null
 
     init {
         val inflater = context
@@ -69,6 +72,10 @@ class FactoryCardView(context: Context, attrs: AttributeSet?) : LinearLayout(con
         priceTxt = root.findViewById(R.id.price_factory_card)
         subText = root.findViewById(R.id.sub_text_factory_card)
 
+        val favorites = app.currentUser?.favorites
+        val products = favorites?.get("factories").toString()
+        listFavorites = products.split(",").toMutableList()
+
         card.setOnClickListener {
             println("Factory")
 
@@ -78,9 +85,21 @@ class FactoryCardView(context: Context, attrs: AttributeSet?) : LinearLayout(con
         }
 
         favorite.setOnClickListener {
-            println("Favorite")
+            CoroutineScope(Dispatchers.IO).launch {
+                listFavorites?.remove("")
+                listFavorites?.add(factory?.factoryId.toString())
 
-            // TODO("ADD FAVORITE")
+                favorites?.put("factories", listFavorites?.joinToString(","))
+
+                val dao = ServerController().userDAO
+                dao.modifyFavorite(app.currentUser!!.id, favorites!!)
+                ServerController().factoryDAO.modify(factory?.factoryId.toString(), factory!!.favoriteCount + 1)
+                app.currentUser!!.favorites = favorites
+
+                withContext(Dispatchers.Main) {
+                    favorite.visibility = GONE
+                }
+            }
         }
 
         CoroutineScope(Dispatchers.Main).launch {
@@ -96,6 +115,10 @@ class FactoryCardView(context: Context, attrs: AttributeSet?) : LinearLayout(con
         rateTxt.text = context.getString(R.string.rating, factory.factoryRate, "")
         priceTxt.text = context.getString(R.string.factory_price_average, factory.factoryAveragePrice)
         subText.text = context.getString(R.string.count_order, factory.factoryCountOrders)
+
+        if (app.currentUser != null && listFavorites?.contains(factory.factoryId) == false) {
+            favorite.visibility = View.VISIBLE
+        }
     }
 
 }
